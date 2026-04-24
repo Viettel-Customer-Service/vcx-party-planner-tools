@@ -10,9 +10,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
-      # Bind mount for database initialization script on first run:
-#      - ./Info/Database/Script.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - ./data/postgres:/var/lib/postgresql/data
+
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-birthday_notification}"]
       interval: 10s
@@ -29,26 +28,18 @@ services:
       db:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://host.docker.internal:5432/postgres
-#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/birthday_notification
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/birthday_notification
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-123}
       SPRING_JPA_HIBERNATE_DDL_AUTO: none
+      WHATSAPP_GROUP_ID: ${WHATSAPP_GROUP_ID:-120363407565980215@g.us}
+      GREEN_API_INSTANCE_ID: ${GREEN_API_INSTANCE_ID}
+      GREEN_API_TOKEN: ${GREEN_API_TOKEN}
       # Optional external config:
-      # GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-AIzaSyAt5sgyqXZxChK8ARpdHebUgNWtMZJ-AJg}
       # MAIL_HOST: ${MAIL_HOST}
       # MAIL_PORT: ${MAIL_PORT}
       # MAIL_USERNAME: ${MAIL_USERNAME}
       # MAIL_PASSWORD: ${MAIL_PASSWORD}
     ports:
       - "8081:8080"
-    volumes:
-      # Bind mount for source code (development)
-      - ./src:/app/src:ro
-      # Bind mount for static files
-      - ./src/main/resources/static:/app/src/main/resources/static:ro
-      # Bind mount for templates
-      - ./src/main/resources/templates:/app/src/main/resources/templates:ro
-
-volumes:
-  pgdata:

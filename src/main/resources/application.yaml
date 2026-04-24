@@ -82,8 +82,8 @@ spring:
 green-api:
   host: https://api.green-api.com
   hostMedia: https://media.green-api.com
-  instanceId: 7107594392
-  token: b54c73d547204c48943f17c4e02aecf5804126494021456898
+  instanceId: ${GREEN_API_INSTANCE_ID:7107594392}
+  token: ${GREEN_API_TOKEN:b54c73d547204c48943f17c4e02aecf5804126494021456898}
 
 gemini:
   api:

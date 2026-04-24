@@ -134,7 +134,7 @@ CREATE TABLE users (
 );
 
 INSERT INTO public.users (username, "password", "role", is_active)
-VALUES ('admin', 'admin', 'ADMIN', true);
+VALUES ('admin', 'ttcnkt@hpbd#2026', 'ADMIN', true);
 
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 

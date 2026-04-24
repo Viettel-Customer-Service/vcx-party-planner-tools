@@ -119,3 +119,7 @@ If you use Docker Compose, the script can be mounted into the PostgreSQL contain
 
 - The project already contains Docker support and a ready-made database script.
 - Keep secrets out of Git; prefer environment variables for passwords and API keys.
+
+
+# Init database;
+docker exec -i <container_id> psql -U postgres -d birthday_notification < Info/Database/Script.sql
