@@ -19,12 +19,12 @@ CREATE TABLE Department (
 -- =========================
 CREATE TABLE Employee (
                           EmployeeID SERIAL PRIMARY KEY,
-                          EmployeeCode VARCHAR(50) NOT NULL UNIQUE,
+                          EmployeeCode VARCHAR(50) UNIQUE,
                           FullName VARCHAR(255) NOT NULL,
                           JobTitle VARCHAR(255),
 
-                          PhoneNumber VARCHAR(20),
-                          Email VARCHAR(255) NOT NULL UNIQUE,
+                          PhoneNumber VARCHAR(40),
+                          Email VARCHAR(255) UNIQUE,
 
                           DateOfBirth DATE NOT NULL,
                           BirthDay INT NOT NULL,
@@ -78,9 +78,6 @@ CREATE TABLE birthdaylog (
 
 CREATE INDEX idx_employee_birthday
     ON Employee (BirthMonth, BirthDay);
-
-CREATE INDEX idx_log_employee_date
-    ON BirthdayLog (EmployeeID, SentDate);
 
 -- =========================
 -- 6. INSERT DATA

@@ -40,7 +40,7 @@ public class Employee {
     @Column(name = "jobtitle", length = 255)
     private String jobTitle;
 
-    @Column(name = "phonenumber", length = 20)
+    @Column(name = "phonenumber", length = 40)
     private String phoneNumber;
 
     @Column(name = "email", unique = true, length = 255)

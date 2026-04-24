@@ -50,7 +50,13 @@ public class EmployeeFormRequest {
     }
 
     public void setEmployeeCode(String employeeCode) {
-        this.employeeCode = employeeCode;
+        if (employeeCode == null) {
+            this.employeeCode = null;
+            return;
+        }
+
+        String normalized = employeeCode.trim();
+        this.employeeCode = normalized.isBlank() || !normalized.matches("\\d+") ? null : normalized;
     }
 
     public String getFullName() {
@@ -82,7 +88,13 @@ public class EmployeeFormRequest {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (email == null) {
+            this.email = null;
+            return;
+        }
+
+        String normalized = email.trim();
+        this.email = normalized.isBlank() ? null : normalized;
     }
 }
 
