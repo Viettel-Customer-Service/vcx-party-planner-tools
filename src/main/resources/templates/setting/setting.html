@@ -3,52 +3,152 @@
       th:replace="~{common/layout :: layout(pageTitle='Cài Đặt', activeMenu='settings', content=~{::content}, pageStyles=~{setting/assets :: pageStyles}, pageScripts=~{setting/assets :: pageScripts})}">
 <div th:fragment="content">
     <div class="setting-page">
-        <div class="card border-0 shadow-sm setting-card">
-            <div class="card-body setting-body">
-                <div class="setting-toolbar">
-                    <h2 class="h5 mb-1 text-dark">Thông báo Sinh nhật</h2>
-                    <p class="text-muted mb-0">Cài đặt thời gian gửi lời chúc mừng.</p>
+
+        <!-- ── Hero Banner ─────────────────────────────── -->
+        <div class="setting-hero">
+            <div class="setting-hero-icon">
+                <i class="bi bi-bell-fill"></i>
+            </div>
+            <div class="setting-hero-text">
+                <h1 class="setting-hero-title">Thông báo Sinh nhật</h1>
+                <p class="setting-hero-subtitle">Cấu hình lịch gửi lời chúc tự động cho toàn bộ nhân viên</p>
+            </div>
+            <div class="setting-hero-badge" id="statusBadge">
+                <span id="statusBadgeText">Đang tải...</span>
+            </div>
+        </div>
+
+        <!-- ── Toast Notification ──────────────────────── -->
+        <div class="setting-toast-container">
+            <div class="toast setting-toast js-setting-toast"
+                 role="alert"
+                 aria-live="assertive"
+                 aria-atomic="true"
+                 data-toast-delay="3500">
+                <div class="toast-header">
+                    <strong class="mr-auto js-setting-toast-title">Thông báo</strong>
+                    <small class="text-muted ml-2">vừa xong</small>
+                    <button type="button" class="ml-2 mb-1 close js-setting-toast-close" aria-label="Đóng thông báo">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="toast-body js-setting-toast-body">Nội dung</div>
+            </div>
+        </div>
+
+        <!-- ── Section: Tự động gửi ────────────────────── -->
+        <div class="setting-section-card">
+            <div class="setting-section-header">
+                <div class="setting-section-header-icon">
+                    <i class="bi bi-send-fill"></i>
+                </div>
+                <div class="setting-section-header-text">
+                    <h3>Chế độ gửi tự động</h3>
+                    <p>Bật hoặc tắt tính năng gửi lời chúc định kỳ mỗi ngày</p>
+                </div>
+            </div>
+            <div class="setting-section-body">
+                <div class="setting-row">
+                    <div class="setting-row-info">
+                        <div class="setting-row-label">
+                            Tự động gửi thông báo
+                            <span class="badge-required">Tính năng chính</span>
+                        </div>
+                        <p class="setting-row-desc">
+                            Khi bật, hệ thống sẽ tự động gửi lời chúc sinh nhật vào thời điểm đã cấu hình hàng ngày.
+                        </p>
+                    </div>
+                    <div class="setting-row-control">
+                        <div class="toggle-wrapper" role="switch" aria-checked="false">
+                            <input type="checkbox" class="toggle-input" id="settingEnabled" aria-label="Bật/tắt tự động gửi thông báo">
+                            <label class="toggle-label" for="settingEnabled">
+                                <span class="toggle-inner" aria-hidden="true"></span>
+                                <span class="toggle-switch" aria-hidden="true"></span>
+                                <span class="toggle-text-on" aria-hidden="true">ON</span>
+                                <span class="toggle-text-off" aria-hidden="true">OFF</span>
+                            </label>
+                            <span class="toggle-status-text" id="toggleStatusText">Tắt</span>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="setting-toast-container">
-                    <div class="toast setting-toast js-setting-toast"
-                         role="alert"
-                         aria-live="assertive"
-                         aria-atomic="true"
-                         data-toast-delay="3500">
-                        <div class="toast-header">
-                            <strong class="mr-auto js-setting-toast-title">Thông báo</strong>
-                            <small class="text-muted">vừa xong</small>
-                            <button type="button" class="ml-2 mb-1 close js-setting-toast-close" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                <div class="setting-row">
+                    <div class="setting-row-info">
+                        <label for="settingTime" class="setting-row-label">
+                            Thời gian gửi hằng ngày
+                        </label>
+                        <p class="setting-row-desc">
+                            Chọn giờ hệ thống sẽ thực hiện gửi lời chúc sinh nhật mỗi ngày.
+                            Nên chọn giờ hành chính để nhân viên không bỏ lỡ.
+                        </p>
+                    </div>
+                    <div class="setting-row-control">
+                        <div class="setting-time-wrapper">
+                            <input id="settingTime"
+                                   type="time"
+                                   class="setting-time-input form-control"
+                                   required
+                                   aria-label="Thời gian gửi thông báo hằng ngày">
                         </div>
-                        <div class="toast-body js-setting-toast-body">Nội dung</div>
                     </div>
                 </div>
+            </div>
 
-                <div class="setting-block">
-                    <div class="form-group mb-3">
-                        <label class="mb-2 d-block">Hoạt động</label>
-                        <div class="custom-control custom-switch">
-                            <input type="checkbox" class="custom-control-input" id="settingEnabled">
-                            <label class="custom-control-label" for="settingEnabled">Bật chức năng</label>
+            <div class="setting-actions">
+                <button type="button" id="saveSettingBtn" class="btn">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
+                        <polyline points="17 21 17 13 7 13 7 21"/>
+                        <polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    <span class="btn-text">Lưu cấu hình</span>
+                </button>
+                <span class="setting-save-hint">
+                    <i class="bi bi-shield-check" aria-hidden="true"></i>
+                    Thay đổi được áp dụng ngay lập tức
+                </span>
+            </div>
+        </div>
+
+        <!-- ── Status Card ──────────────────────────────── -->
+        <div class="setting-section-card">
+            <div class="setting-section-header">
+                <div class="setting-section-header-icon">
+                    <i class="bi bi-activity"></i>
+                </div>
+                <div class="setting-section-header-text">
+                    <h3>Trạng thái hệ thống</h3>
+                    <p>Thông tin hiện tại về cấu hình đang hoạt động</p>
+                </div>
+            </div>
+            <div class="setting-section-body">
+                <div class="setting-row">
+                    <div class="setting-row-info">
+                        <div class="setting-row-label">Trạng thái gửi tự động</div>
+                        <p class="setting-row-desc">Cho biết lịch gửi thông báo hiện tại đang hoạt động hay bị tắt.</p>
+                    </div>
+                    <div class="setting-row-control">
+                        <div class="setting-status-pill" id="systemStatusPill">
+                            <span class="setting-status-dot"></span>
+                            <span id="systemStatusText">Đang tải...</span>
                         </div>
                     </div>
-
-                    <div class="form-group mb-4">
-                        <label for="settingTime" class="mb-2">Thời gian</label>
-                        <input id="settingTime" type="time" class="form-control setting-time-input" required>
-                        <small class="form-text text-muted">Thời gian gửi hằng ngày.</small>
+                </div>
+                <div class="setting-row">
+                    <div class="setting-row-info">
+                        <div class="setting-row-label">Giờ gửi hiện tại</div>
+                        <p class="setting-row-desc">Thời điểm được cấu hình để gửi lời chúc sinh nhật.</p>
                     </div>
-
-                    <div>
-                        <button type="button" id="saveSettingBtn" class="btn btn-primary px-4">Lưu</button>
+                    <div class="setting-row-control">
+                        <div class="setting-status-pill" id="timeStatusPill">
+                            <span class="setting-status-dot"></span>
+                            <span id="timeStatusText">--:--</span>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 </html>
-

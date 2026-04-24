@@ -19,12 +19,12 @@ CREATE TABLE Department (
 -- =========================
 CREATE TABLE Employee (
                           EmployeeID SERIAL PRIMARY KEY,
-                          EmployeeCode VARCHAR(50) NOT NULL UNIQUE,
+                          EmployeeCode VARCHAR(50) UNIQUE,
                           FullName VARCHAR(255) NOT NULL,
                           JobTitle VARCHAR(255),
 
                           PhoneNumber VARCHAR(20),
-                          Email VARCHAR(255) NOT NULL UNIQUE,
+                          Email VARCHAR(255) UNIQUE,
 
                           DateOfBirth DATE NOT NULL,
                           BirthDay INT NOT NULL,
