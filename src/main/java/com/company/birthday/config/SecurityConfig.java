@@ -28,6 +28,7 @@ public class SecurityConfig {
                                 "/error",
                                 "/bootstrap-4.0.0-dist/**",
                                 "/common/**",
+                                "/images/**",
                                 "/employeeList/**",
                                 "/logList/**",
                                 "/messageList/**",

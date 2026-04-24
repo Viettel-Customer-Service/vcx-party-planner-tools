@@ -12,10 +12,25 @@ body.auth-body {
 }
 
 .auth-brand-mark {
-    width: 72px;
-    height: 72px;
+    width: auto !important;
+    height: 72px !important;
+    max-width: 240px;
+    padding: 0 10px;
     border-radius: 16px;
     margin-right: 0;
+    background: #fff0f3;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden;
+}
+
+.brand-mark-image {
+    width: auto !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+    display: block !important;
 }
 
 .auth-card {
