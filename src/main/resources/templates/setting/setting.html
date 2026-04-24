@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{common/layout :: layout(pageTitle='Cài Đặt', activeMenu='settings', content=~{::content}, pageStyles=~{setting/assets :: pageStyles}, pageScripts=~{setting/assets :: pageScripts})}">
+<div th:fragment="content">
+    <div class="setting-page">
+        <div class="card border-0 shadow-sm setting-card">
+            <div class="card-body setting-body">
+                <div class="setting-toolbar">
+                    <h2 class="h5 mb-1 text-dark">Thông báo Sinh nhật</h2>
+                    <p class="text-muted mb-0">Cài đặt thời gian gửi lời chúc mừng.</p>
+                </div>
+
+                <div class="setting-toast-container">
+                    <div class="toast setting-toast js-setting-toast"
+                         role="alert"
+                         aria-live="assertive"
+                         aria-atomic="true"
+                         data-toast-delay="3500">
+                        <div class="toast-header">
+                            <strong class="mr-auto js-setting-toast-title">Thông báo</strong>
+                            <small class="text-muted">vừa xong</small>
+                            <button type="button" class="ml-2 mb-1 close js-setting-toast-close" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="toast-body js-setting-toast-body">Nội dung</div>
+                    </div>
+                </div>
+
+                <div class="setting-block">
+                    <div class="form-group mb-3">
+                        <label class="mb-2 d-block">Hoạt động</label>
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" class="custom-control-input" id="settingEnabled">
+                            <label class="custom-control-label" for="settingEnabled">Bật chức năng</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label for="settingTime" class="mb-2">Thời gian</label>
+                        <input id="settingTime" type="time" class="form-control setting-time-input" required>
+                        <small class="form-text text-muted">Thời gian gửi hằng ngày.</small>
+                    </div>
+
+                    <div>
+                        <button type="button" id="saveSettingBtn" class="btn btn-primary px-4">Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
+

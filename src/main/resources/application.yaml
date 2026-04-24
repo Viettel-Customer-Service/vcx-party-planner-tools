@@ -1,0 +1,118 @@
+spring:
+  application:
+    name: birthday-notification
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: 123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    # nếu muốn dùng file ngoài thì comment dòng trên và dùng dòng dưới
+    # prefix: file:src/main/resources/templates/
+
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 100
+
+  web:
+    resources:
+      static-locations: classpath:/static/,file:src/main/resources/static/
+      chain:
+        cache: false
+
+  # DEVTOOLS (AUTO RELOAD)
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/resources
+    livereload:
+      enabled: true
+
+  # MAIL (Outlook SMTP by default - override via environment variables)
+#  For Gmail/Outlook. use App Password.
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:hieuhieu1234231@gmail.com}
+#    password: ${MAIL_PASSWORD:qinghncrqarhynrl}
+    password: qinghncrqarhynrl
+    default-encoding: UTF-8
+    properties:
+      mail:
+        debug: ${MAIL_DEBUG:true}
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          connectiontimeout: 30000
+          timeout: 30000
+          writetimeout: 30000
+
+#  For Viettel.
+#  mail:
+#    host: smtp.viettel.com.vn
+#    port: 465
+#    username: anhvh26@viettel.com.vn
+#    password: Abc25251325vp@@@
+#
+#    properties.mail.smtp:
+#          auth: true
+#          starttls.enable: true
+#          ssl.enable: true
+#          ssl.trust: smtp.viettel.com.vn
+#          debug: true
+#          connectiontimeout: 30000
+#          timeout: 30000
+#          writetimeout: 30000
+
+green-api:
+  host: https://api.green-api.com
+  hostMedia: https://media.green-api.com
+  instanceId: 7107594392
+  token: b54c73d547204c48943f17c4e02aecf5804126494021456898
+
+gemini:
+  api:
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent
+#    key: ${GEMINI_API_KEY:AIzaSyAakH1WNlGQ5qPoDCPcvt9QXVSXAXguwsQ}
+    key: ${GEMINI_API_KEY:AIzaSyAt5sgyqXZxChK8ARpdHebUgNWtMZJ-AJg}
+    connect-timeout-ms: ${GEMINI_CONNECT_TIMEOUT_MS:5000}
+    read-timeout-ms: ${GEMINI_READ_TIMEOUT_MS:5000}
+
+birthday:
+  async:
+    core-pool-size: ${BIRTHDAY_ASYNC_CORE_POOL_SIZE:4}
+    max-pool-size: ${BIRTHDAY_ASYNC_MAX_POOL_SIZE:8}
+    queue-capacity: ${BIRTHDAY_ASYNC_QUEUE_CAPACITY:50}
+    thread-name-prefix: ${BIRTHDAY_ASYNC_THREAD_NAME_PREFIX:BdayWorker-}
+
+  gemini:
+    retry:
+      max-attempts: ${BIRTHDAY_GEMINI_RETRY_MAX_ATTEMPTS:3}
+      backoff-ms: ${BIRTHDAY_GEMINI_RETRY_BACKOFF_MS:2000}
+
+  scheduler:
+    # TODO: Set message template id to use for scheduled birthday sends.
+    message-template-id: 1
+
+  notification:
+    whatsapp:
+      enabled: ${WHATSAPP_ENABLED:true}
+      group-id: ${WHATSAPP_GROUP_ID:120363407565980215@g.us}
+    email:
+      enabled: ${EMAIL_ENABLED:true}
+      subject: ${EMAIL_SUBJECT:Chuc mung sinh nhat}

@@ -1,0 +1,26 @@
+<div xmlns:th="http://www.thymeleaf.org"
+     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+     th:fragment="header(pageTitle)"
+     class="app-header bg-white border-bottom px-4 py-3 d-flex align-items-start justify-content-between">
+    <div>
+        <p class="text-uppercase text-muted small mb-1">Birthday Notification</p>
+        <h1 class="h4 mb-0 text-dark" th:text="${pageTitle} ?: 'Trang chu'">Trang chu</h1>
+    </div>
+
+    <div class="dropdown user-menu" sec:authorize="isAuthenticated()">
+        <button class="btn btn-light border user-menu-btn dropdown-toggle" type="button" id="userMenuDropdown"
+                aria-haspopup="true" aria-expanded="false">
+            <span class="mr-2 text-muted">Xin chào,</span>
+            <strong th:text="${#authentication != null ? #authentication.name : 'User'}">User</strong>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right user-menu-dropdown" aria-labelledby="userMenuDropdown">
+<!--            <span class="dropdown-item-text text-muted small"> Tai khoan</span> -->
+<!--            <span class="dropdown-item-text font-weight-bold"-->
+<!--                  th:text="${#authentication != null ? #authentication.name : ''}">username</span>-->
+<!--            <div class="dropdown-divider"></div>-->
+            <form th:action="@{/logout}" method="post" class="mb-0">
+                <button type="submit" class="dropdown-item text-danger">Đăng xuất</button>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+.employee-toolbar {
+    border-bottom: 1px solid #e7edf6;
+}
+
+.js-send-birthday {
+    min-width: 78px;
+    border-radius: 8px;
+}
+
+.js-send-birthday:disabled {
+    cursor: not-allowed;
+}

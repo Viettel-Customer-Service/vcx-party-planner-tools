@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="pager(pagination, baseUrl)">
+    <nav class="pagination-wrap" aria-label="Page navigation" th:if="${pagination != null and pagination.totalPages > 1}">
+        <ul class="pagination pagination-modern mb-0">
+            <li class="page-item" th:classappend="${!pagination.hasPrevious} ? ' disabled' : ''">
+                <a class="page-link page-control"
+                   th:if="${pagination.hasPrevious}"
+                   th:href="@{${baseUrl}(page=${pagination.previousPage},size=${pagination.size})}"><span aria-hidden="true">&#8249;</span> Trước</a>
+                <a class="page-link page-control" href="#" th:if="${!pagination.hasPrevious}"><span aria-hidden="true">&#8249;</span> Trước</a>
+            </li>
+
+            <li class="page-item"
+                th:each="item : ${pagination.items}"
+                th:classappend="${item.ellipsis} ? ' disabled ellipsis' : (${item.current} ? ' active' : '')">
+                <span class="page-link" th:if="${item.ellipsis}" th:text="${item.label}">...</span>
+                <a class="page-link"
+                   th:if="${!item.ellipsis}"
+                   th:href="@{${baseUrl}(page=${item.pageNumber},size=${pagination.size})}"
+                   th:text="${item.label}">1</a>
+            </li>
+
+            <li class="page-item" th:classappend="${!pagination.hasNext} ? ' disabled' : ''">
+                <a class="page-link page-control"
+                   th:if="${pagination.hasNext}"
+                   th:href="@{${baseUrl}(page=${pagination.nextPage},size=${pagination.size})}"><span>Sau</span> <span aria-hidden="true">&#8250;</span></a>
+                <a class="page-link page-control" href="#" th:if="${!pagination.hasNext}"><span>Sau</span> <span aria-hidden="true">&#8250;</span></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</html>
+
+

@@ -1,0 +1,133 @@
+.message-page {
+    background: linear-gradient(180deg, #fff4f7 0%, #ffedf2 100%);
+    border-radius: 18px;
+    padding: 16px;
+}
+
+.message-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.message-toolbar {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e7edf6;
+    background: #ffffff;
+}
+
+.message-toolbar .btn-primary {
+    background: #ee0033;
+    border-color: #ee0033;
+    border-radius: 10px;
+}
+
+.message-table thead th {
+    border-top: 0;
+    border-bottom: 1px solid #e7edf6;
+    font-size: 0.87rem;
+    font-weight: 600;
+    color: #6a7a95;
+    background: #f9fbff;
+    white-space: nowrap;
+}
+
+.message-table tbody td {
+    border-top: 1px solid #eef2f8;
+    font-size: 0.92rem;
+    color: #22314c;
+    vertical-align: top;
+}
+
+.message-table tbody tr:hover {
+    background: #f8fbff;
+}
+
+.message-content {
+    white-space: pre-line;
+    min-width: 360px;
+    max-width: 640px;
+}
+
+.action-wrap {
+    gap: 8px;
+}
+
+.action-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.action-btn svg {
+    width: 14px;
+    height: 14px;
+    fill: currentColor;
+}
+
+.edit-btn {
+    color: #2f67ff;
+    background: #eaf0ff;
+}
+
+.edit-btn:hover {
+    color: #1d4fd6;
+    background: #dbe6ff;
+}
+
+.message-modal {
+    border: 0;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.message-modal .modal-header {
+    border-bottom: 1px solid #edf2fa;
+}
+
+.message-modal .modal-footer {
+    border-top: 1px solid #edf2fa;
+}
+
+.message-modal .form-control {
+    border-radius: 9px;
+}
+
+.message-modal .btn-primary {
+    background: #ee0033;
+    border-color: #ee0033;
+}
+
+.message-modal .btn-light {
+    border: 1px solid #d8e0ed;
+    background: #ffffff;
+}
+
+.message-content-input {
+    white-space: pre-wrap;
+}
+
+.form-error {
+    display: block;
+    margin-top: 4px;
+    color: #dc3545;
+    font-size: 0.78rem;
+}
+
+@media (max-width: 992px) {
+    .message-page {
+        padding: 12px;
+    }
+
+    .message-toolbar {
+        gap: 12px;
+        padding: 16px;
+    }
+}
+

@@ -1,0 +1,82 @@
+body.auth-body {
+    background: linear-gradient(180deg, #fff4f7 0%, #ffedf2 100%);
+}
+
+.auth-shell {
+    min-height: 100vh;
+}
+
+.auth-panel {
+    width: 100%;
+    max-width: 460px;
+}
+
+.auth-brand-mark {
+    width: 72px;
+    height: 72px;
+    border-radius: 16px;
+    margin-right: 0;
+}
+
+.auth-card {
+    border: 0;
+    border-radius: 18px;
+    box-shadow: 0 18px 45px rgba(31, 41, 64, 0.12);
+    overflow: hidden;
+}
+
+.auth-card .card-body {
+    padding: 2.5rem;
+}
+
+.auth-title {
+    font-size: 1.95rem;
+    font-weight: 700;
+    color: #1f2940;
+    margin-bottom: 0.35rem;
+}
+
+.auth-subtitle {
+    color: #6f7788;
+    margin-bottom: 1.75rem;
+}
+
+.auth-form .form-label {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #41506b;
+    margin-bottom: 0.5rem;
+}
+
+.auth-form .form-control {
+    height: 46px;
+    border-radius: 10px;
+    border-color: #d8deea;
+    box-shadow: none;
+}
+
+.auth-form .form-control:focus {
+    border-color: #ee0033;
+    box-shadow: 0 0 0 0.2rem rgba(238, 0, 51, 0.12);
+}
+
+.auth-submit-btn {
+    height: 46px;
+    border-radius: 10px;
+    font-weight: 600;
+    background: #ee0033;
+    border-color: #ee0033;
+}
+
+.auth-submit-btn:hover,
+.auth-submit-btn:focus,
+.auth-submit-btn:active {
+    background: #d4002d;
+    border-color: #d4002d;
+}
+
+.auth-help {
+    color: #6f7788;
+    font-size: 0.92rem;
+}
+

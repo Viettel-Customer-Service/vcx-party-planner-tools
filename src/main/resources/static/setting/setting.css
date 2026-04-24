@@ -1,0 +1,103 @@
+.setting-page {
+    background: linear-gradient(180deg, #fff4f7 0%, #ffedf2 100%);
+    border-radius: 18px;
+    padding: 16px;
+}
+
+.setting-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.setting-toast-container {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 1080;
+    width: min(360px, calc(100vw - 32px));
+}
+
+.setting-toast {
+    display: block;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    border: 0;
+    box-shadow: 0 12px 30px rgba(22, 36, 71, 0.16);
+    border-radius: 14px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.setting-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.setting-toast .toast-header {
+    border-bottom: 0;
+    padding: 0.7rem 0.9rem;
+}
+
+.setting-toast .toast-body {
+    padding: 0.85rem 0.9rem 0.95rem;
+    color: #22314c;
+}
+
+.setting-toast.toast-success .toast-header {
+    background: linear-gradient(90deg, #e8fff2 0%, #f1fff7 100%);
+    color: #157347;
+}
+
+.setting-toast.toast-success .toast-body {
+    background: #ffffff;
+}
+
+.setting-toast.toast-error .toast-header {
+    background: linear-gradient(90deg, #ffe8eb 0%, #fff3f5 100%);
+    color: #b02a37;
+}
+
+.setting-toast.toast-error .toast-body {
+    background: #ffffff;
+}
+
+.setting-body {
+    padding: 0;
+}
+
+.setting-toolbar {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e7edf6;
+}
+
+.setting-block {
+    max-width: 420px;
+    padding: 24px;
+}
+
+.setting-time-input {
+    border-radius: 9px;
+    max-width: 220px;
+}
+
+#saveSettingBtn {
+    border-radius: 10px;
+    background: #ee0033;
+    border-color: #ee0033;
+}
+
+
+@media (max-width: 992px) {
+    .setting-page {
+        padding: 12px;
+    }
+
+    .setting-toolbar,
+    .setting-block {
+        padding: 16px;
+    }
+}
+

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout(pageTitle, content)">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} ?: 'Birthday Notification'">Birthday Notification</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link th:href="@{/bootstrap-4.0.0-dist/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/common/layout/layout.css}" rel="stylesheet">
+    <link th:href="@{/common/auth/auth.css}" rel="stylesheet">
+</head>
+<body class="app-body auth-body">
+<div class="auth-shell d-flex align-items-center justify-content-center px-3 py-4">
+    <div class="auth-panel">
+        <div class="auth-brand text-center mb-4">
+            <div class="brand-mark auth-brand-mark mx-auto" aria-hidden="true">
+                <img th:src="@{/images/company-logo.svg}" alt="Company logo" class="brand-mark-image">
+            </div>
+            <div class="brand-name mt-3">Birthday Notification</div>
+            <p class="text-muted mb-0 mt-2">Đăng nhập để tiếp tục</p>
+        </div>
+
+        <div th:if="${content != null}" th:replace="${content}"></div>
+        <div th:if="${content == null}" class="text-muted text-center">
+            Nội dung trang sẽ được đặt tại đây.
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/bootstrap-4.0.0-dist/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>
+
+
