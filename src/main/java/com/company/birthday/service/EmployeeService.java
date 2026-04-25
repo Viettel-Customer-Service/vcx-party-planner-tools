@@ -12,7 +12,7 @@ import java.util.List;
 
 public interface EmployeeService {
 
-	Page<EmployeeListResponse> getActiveEmployees(Pageable pageable);
+	Page<EmployeeListResponse> getActiveEmployees(String keyword, Pageable pageable);
 
 	List<UpcomingBirthdayResponse> getUpcomingBirthdays();
 

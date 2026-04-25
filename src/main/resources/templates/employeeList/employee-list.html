@@ -3,13 +3,19 @@
       th:replace="~{common/layout :: layout(pageTitle='Danh Sách Nhân Viên', activeMenu='employees', content=~{::content}, pageStyles=~{employeeList/assets :: pageStyles}, pageScripts=~{employeeList/assets :: pageScripts})}">
 <div th:fragment="content">
     <div class="employee-page">
+
+        <!-- ── Main data card ────────────────────────────── -->
         <div class="card border-0 shadow-sm employee-card">
             <div class="card-body p-0">
-                <div class="d-flex flex-wrap align-items-center justify-content-between employee-toolbar">
+
+                <!-- ── Toolbar ─────────────────────────────── -->
+                <div class="employee-toolbar">
+
+                    <!-- Birthday ticker (hidden until JS populates it) -->
                     <div id="upcomingBirthdayBlock" class="employee-birthday-slot d-none">
                         <div class="birthday-notice-inline-label">
                             <i class="bi bi-cake2-fill" aria-hidden="true"></i>
-                            <strong>Sinh nhật sắp tới</strong>
+                            <span>Sinh nhật sắp tới</span>
                         </div>
                         <div class="birthday-ticker-wrap d-flex align-items-center">
                             <div class="ticker-viewport flex-grow-1">
@@ -17,12 +23,49 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex flex-wrap align-items-center employee-actions">
-                        <button id="openImportEmployeeModal" type="button" class="btn btn-outline-primary btn-sm px-3 mr-2">Import</button>
-                        <button id="openCreateEmployeeModal" type="button" class="btn btn-primary btn-sm px-3">Thêm mới</button>
+
+                    <!-- Action buttons -->
+                    <div class="employee-actions">
+                        <!-- Search Box -->
+                        <form th:action="@{/employees}" method="get" class="employee-search-form">
+                            <div class="search-input-wrap">
+                                <i class="bi bi-search search-icon"></i>
+                                <input type="text" name="keyword" 
+                                       class="form-control search-input" 
+                                       placeholder="Tìm mã NV, tên, SĐT..."
+                                       th:value="${keyword}"
+                                       autocomplete="off">
+                                <a th:if="${keyword != null and keyword != ''}" th:href="@{/employees}" class="clear-search" title="Xóa tìm kiếm">
+                                    <i class="bi bi-x-circle-fill"></i>
+                                </a>
+                            </div>
+                        </form>
+
+                        <button id="openImportEmployeeModal"
+                                type="button"
+                                class="btn btn-outline-primary"
+                                aria-label="Import danh sách nhân viên từ Excel">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+                                <polyline points="17 8 12 3 7 8"/>
+                                <line x1="12" y1="3" x2="12" y2="15"/>
+                            </svg>
+                            Import Excel
+                        </button>
+                        <button id="openCreateEmployeeModal"
+                                type="button"
+                                class="btn btn-primary"
+                                aria-label="Thêm nhân viên mới">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Thêm mới
+                        </button>
                     </div>
                 </div>
 
+                <!-- ── Toast (server-side) ─────────────────── -->
                 <div class="employee-toast-container" th:if="${successMessage != null or errorMessage != null}">
                     <div class="toast employee-toast js-page-toast"
                          role="alert"
@@ -31,9 +74,9 @@
                          th:classappend="${errorMessage != null} ? ' toast-error' : ' toast-success'"
                          th:attr="data-toast-delay=3500">
                         <div class="toast-header">
-                            <strong class="mr-auto" th:text="${errorMessage != null ? 'Có lỗi' : 'Thành công'}">Thông báo</strong>
-                            <small class="text-muted">vừa xong</small>
-                            <button type="button" class="ml-2 mb-1 close js-toast-close" aria-label="Close">
+                            <strong class="mr-auto" th:text="${errorMessage != null ? 'Có lỗi xảy ra' : 'Thành công'}">Thông báo</strong>
+                            <small class="text-muted ml-2">vừa xong</small>
+                            <button type="button" class="ml-2 mb-1 close js-toast-close" aria-label="Đóng thông báo">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -41,94 +84,123 @@
                     </div>
                 </div>
 
+                <!-- ── Data table ───────────────────────────── -->
                 <div class="table-responsive employee-table-wrap">
-                    <table class="table table-hover mb-0 employee-table">
+                    <table class="table mb-0 employee-table" aria-label="Danh sách nhân viên">
                         <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Phòng</th>
-                            <th>Chức danh</th>
-                            <th>Mã nhân viên</th>
-                            <th>Họ và tên</th>
-                            <th>Ngày sinh</th>
-                            <th>Số đt</th>
-                            <th>Email</th>
-                            <th class="text-center">*</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">Mã NV</th>
+                                <th scope="col">Họ và tên</th>
+                                <th scope="col">Ngày sinh</th>
+                                <th scope="col">Số điện thoại</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Chức danh & Phòng ban</th>
+                                <th scope="col" class="text-center">Thao tác</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="employee : ${employees}">
-                            <td th:text="${employee.index}">1</td>
-                            <td th:text="${employee.department}">CNTT</td>
-                            <td th:text="${employee.title}">Lap trinh vien</td>
-                            <td th:text="${employee.employeeCode}">EMP001</td>
-                            <td class="font-weight-bold" th:text="${employee.fullName}">Nguyen Van A</td>
-                            <td th:text="${employee.dateOfBirth != null ? #temporals.format(employee.dateOfBirth, 'dd/MM/yyyy') : ''}">15/01/1996</td>
-                            <td th:text="${employee.phone}">0901234567</td>
-                            <td th:text="${employee.email}">abc@company.vn</td>
-                            <td>
-                                <div class="d-flex justify-content-center action-wrap">
-                                    <a href="#"
-                                       class="action-btn edit-btn js-edit-employee"
-                                       title="Edit"
-                                       aria-label="Edit"
-                                       th:attr="data-employee-id=${employee.employeeId},
-                                                data-department-id=${employee.departmentId},
-                                                data-job-title=${employee.title},
-                                                data-employee-code=${employee.employeeCode},
-                                                data-full-name=${employee.fullName},
-                                                data-date-of-birth=${employee.dateOfBirth},
-                                                data-phone-number=${employee.phone},
-                                                data-email=${employee.email}">
-                                        <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
-                                            <path d="M3 17.25V21h3.75L17.8 9.95l-3.75-3.75L3 17.25zm17.71-10.04a1.003 1.003 0 0 0 0-1.42l-2.5-2.5a1.003 1.003 0 0 0-1.42 0l-1.96 1.96 3.75 3.75 2.13-1.79z"/>
-                                        </svg>
-                                    </a>
-                                    <form th:action="@{/employees/{employeeId}/delete(employeeId=${employee.employeeId})}"
-                                          method="post"
-                                          class="d-inline">
-                                        <input type="hidden" name="page" th:value="${pagination != null ? pagination.currentPage : 0}">
-                                        <input type="hidden" name="size" th:value="${pagination != null ? pagination.size : 20}">
-                                        <button type="submit"
-                                                class="action-btn delete-btn js-delete-employee"
-                                                title="Delete"
-                                                aria-label="Delete"
-                                                th:attr="data-employee-name=${employee.fullName}">
+                            <tr th:each="employee : ${employees}">
+                                <td>
+                                    <code style="font-size:0.85rem; font-weight:600; color:#4a5578; background:#f0f2f8; padding:3px 8px; border-radius:6px; letter-spacing:0.02em;" th:text="${employee.employeeCode}">EMP001</code>
+                                </td>
+                                <td>
+                                    <div class="emp-name" th:text="${employee.fullName}" style="font-weight:600; color:#2c3345;">Nguyễn Văn A</div>
+                                </td>
+                                <td>
+                                    <div class="dob-cell" style="display:inline-flex; align-items:center; gap:6px;">
+                                        <i class="bi bi-calendar3 text-muted" style="font-size:0.8rem;" aria-hidden="true" th:if="${employee.dateOfBirth != null}"></i>
+                                        <span th:text="${employee.dateOfBirth != null ? #temporals.format(employee.dateOfBirth, 'dd/MM/yyyy') : '—'}">15/01/1996</span>
+                                    </div>
+                                </td>
+                                <td th:text="${employee.phone ?: '—'}">0901234567</td>
+                                <td th:text="${employee.email ?: '—'}" style="color:#5a6376;">abc@company.vn</td>
+                                <td>
+                                    <div class="d-flex flex-column" style="gap:4px;">
+                                        <span style="font-size:0.85rem; font-weight:500; color:#3b4356;" th:text="${employee.title}">Lập trình viên</span>
+                                        <div><span class="dept-badge" th:text="${employee.department}">CNTT</span></div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="action-wrap">
+                                        <!-- Edit -->
+                                        <a href="#"
+                                           class="action-btn edit-btn js-edit-employee"
+                                           title="Chỉnh sửa"
+                                           aria-label="Chỉnh sửa nhân viên"
+                                           th:attr="data-employee-id=${employee.employeeId},
+                                                    data-department-id=${employee.departmentId},
+                                                    data-job-title=${employee.title},
+                                                    data-employee-code=${employee.employeeCode},
+                                                    data-full-name=${employee.fullName},
+                                                    data-date-of-birth=${employee.dateOfBirth},
+                                                    data-phone-number=${employee.phone},
+                                                    data-email=${employee.email}">
                                             <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
-                                                <path d="M6 7h12l-1 14H7L6 7zm9-3 1 2H8l1-2h6z"/>
+                                                <path d="M3 17.25V21h3.75L17.8 9.95l-3.75-3.75L3 17.25zm17.71-10.04a1.003 1.003 0 0 0 0-1.42l-2.5-2.5a1.003 1.003 0 0 0-1.42 0l-1.96 1.96 3.75 3.75 2.13-1.79z"/>
                                             </svg>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(employees)}">
-                            <td colspan="9" class="text-center text-muted py-4">Không có dữ liệu Nhân viên.</td>
-                        </tr>
+                                        </a>
+                                        <!-- Delete -->
+                                        <form th:action="@{/employees/{id}/delete(id=${employee.employeeId})}"
+                                              method="post"
+                                              class="d-inline">
+                                            <input type="hidden" name="page" th:value="${pagination != null ? pagination.currentPage : 0}">
+                                            <input type="hidden" name="size" th:value="${pagination != null ? pagination.size : 20}">
+                                            <button type="submit"
+                                                    class="action-btn delete-btn js-delete-employee"
+                                                    title="Xoá"
+                                                    aria-label="Xoá nhân viên"
+                                                    th:attr="data-employee-name=${employee.fullName}">
+                                                <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                                                    <path d="M6 7h12l-1 14H7L6 7zm9-3 1 2H8l1-2h6z"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Empty state -->
+                            <tr class="empty-state-row" th:if="${#lists.isEmpty(employees)}">
+                                <td colspan="7">
+                                    <div class="empty-state">
+                                        <div class="empty-state-icon">
+                                            <i class="bi bi-people" aria-hidden="true"></i>
+                                        </div>
+                                        <p class="empty-state-text mb-0">Chưa có dữ liệu nhân viên</p>
+                                        <p style="font-size:0.78rem; color:#b8becc; margin:0">Nhấn "Thêm mới" hoặc "Import Excel" để bắt đầu</p>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
+                <!-- ── Pagination ──────────────────────────── -->
                 <div th:replace="~{common/pagination :: pager(pagination=${pagination}, baseUrl=${baseUrl})}"></div>
+
             </div>
         </div>
 
-<!--        Modal Create/Edit-->
-        <div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- ================================================ -->
+        <!--  Modal: Thêm / Chỉnh sửa nhân viên              -->
+        <!-- ================================================ -->
+        <div class="modal fade" id="employeeModal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="employeeModalTitle">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content employee-modal">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="employeeModalTitle"
-                            th:text="${modalMode != null and modalMode.name() == 'UPDATE'} ? 'Cap Nhat Nhan Vien' : 'Them Nhan Vien'">Thêm Nhân Viên</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <div>
+                            <h5 class="modal-title" id="employeeModalTitle"
+                                th:text="${modalMode != null and modalMode.name() == 'UPDATE'} ? 'Cập nhật nhân viên' : 'Thêm nhân viên mới'">Thêm nhân viên mới</h5>
+                            <p style="font-size:0.8rem; color:#9aa0b5; margin:3px 0 0;" th:text="${modalMode != null and modalMode.name() == 'UPDATE'} ? 'Cập nhật thông tin nhân viên trong hệ thống.' : 'Điền đầy đủ thông tin để thêm nhân viên mới.'">Điền đầy đủ thông tin để thêm nhân viên mới.</p>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <form id="employeeForm"
                           th:object="${employeeForm}"
                           th:action="${employeeFormAction}"
-                          method="post"
-                          novalidate>
+                          method="post">
                         <div class="modal-body">
                             <div class="alert alert-danger mb-3" th:if="${#fields.hasGlobalErrors()}">
                                 <p class="mb-0" th:each="error : ${#fields.globalErrors()}" th:text="${error}">Có lỗi.</p>
@@ -136,74 +208,76 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="departmentId">Phòng</label>
-                                    <select id="departmentId" class="form-control" th:field="*{departmentId}">
-                                        <option value="">Chọn Phòng ban</option>
+                                    <label for="departmentId">Phòng ban <span class="text-danger">*</span></label>
+                                    <select id="departmentId" class="form-control" th:field="*{departmentId}" required>
+                                        <option value="" disabled selected hidden>— Chọn phòng ban —</option>
                                         <option th:each="department : ${departments}"
                                                 th:value="${department.departmentId}"
-                                                th:text="${department.departmentName}">Phong CNTT</option>
+                                                th:text="${department.departmentName}">Phòng CNTT</option>
                                     </select>
                                     <small class="form-error" th:if="${#fields.hasErrors('departmentId')}" th:errors="*{departmentId}"></small>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="jobTitle">Chức danh</label>
-                                    <input id="jobTitle" type="text" class="form-control" th:field="*{jobTitle}">
+                                    <label for="jobTitle">Chức danh <span class="text-danger">*</span></label>
+                                    <input id="jobTitle" type="text" class="form-control" th:field="*{jobTitle}" placeholder="VD: Lập trình viên" required>
                                     <small class="form-error" th:if="${#fields.hasErrors('jobTitle')}" th:errors="*{jobTitle}"></small>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="employeeCode">Mã Nhân viên</label>
-                                    <input id="employeeCode" type="text" class="form-control" th:field="*{employeeCode}">
+                                    <label for="employeeCode">Mã nhân viên <span class="text-danger">*</span></label>
+                                    <input id="employeeCode" type="text" class="form-control" th:field="*{employeeCode}" placeholder="VD: EMP001" required>
                                     <small class="form-error" th:if="${#fields.hasErrors('employeeCode')}" th:errors="*{employeeCode}"></small>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="fullName">Họ và tên</label>
-                                    <input id="fullName" type="text" class="form-control" th:field="*{fullName}">
+                                    <label for="fullName">Họ và tên <span class="text-danger">*</span></label>
+                                    <input id="fullName" type="text" class="form-control" th:field="*{fullName}" placeholder="VD: Nguyễn Văn A" required>
                                     <small class="form-error" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></small>
                                 </div>
                             </div>
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="dateOfBirth">Ngày sinh</label>
-                                    <input id="dateOfBirth" type="date" class="form-control" th:field="*{dateOfBirth}">
+                                    <label for="dateOfBirth">Ngày sinh <span class="text-danger">*</span></label>
+                                    <input id="dateOfBirth" type="date" class="form-control" th:field="*{dateOfBirth}" required>
                                     <small class="form-error" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}"></small>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="phoneNumber">Số Đt</label>
-                                    <input id="phoneNumber" type="text" class="form-control" th:field="*{phoneNumber}">
+                                    <label for="phoneNumber">Số điện thoại <span class="text-danger">*</span></label>
+                                    <input id="phoneNumber" type="text" class="form-control" th:field="*{phoneNumber}" placeholder="VD: 0901234567" required>
                                     <small class="form-error" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></small>
                                 </div>
                             </div>
 
                             <div class="form-group mb-0">
-                                <label for="email">Email</label>
-                                <input id="email" type="email" class="form-control" th:field="*{email}">
+                                <label for="email">Email <span class="text-danger">*</span></label>
+                                <input id="email" type="email" class="form-control" th:field="*{email}" placeholder="VD: nguyenvana@company.vn" required>
                                 <small class="form-error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-dismiss="modal">Hủy</button>
                             <button id="employeeSubmitBtn" type="submit" class="btn btn-primary"
-                                    th:text="${modalMode != null and modalMode.name() == 'UPDATE'} ? 'Cap nhat' : 'Them moi'">Thêm mới</button>
+                                    th:text="${modalMode != null and modalMode.name() == 'UPDATE'} ? 'Cập nhật' : 'Thêm mới'">Thêm mới</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- Modal Import -->
-        <div class="modal fade" id="employeeImportModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- ================================================ -->
+        <!--  Modal: Import Excel                            -->
+        <!-- ================================================ -->
+        <div class="modal fade" id="employeeImportModal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="importModalTitle">
             <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
                 <div class="modal-content employee-modal import-modal">
                     <div class="modal-header">
                         <div>
-                            <h5 class="modal-title mb-1">Thêm danh sách nhân viên</h5>
-                            <small class="text-muted">Tải file mẫu và nhập dữ liệu từ Excel.</small>
+                            <h5 class="modal-title mb-1" id="importModalTitle">Nhập danh sách nhân viên</h5>
+                            <small class="text-muted">Tải file mẫu và nhập dữ liệu từ Excel (.xlsx)</small>
                         </div>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
@@ -230,31 +304,46 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="importFile">File Excel</label>
-                                <input id="importFile" name="file" type="file" class="form-control-file" accept=".xlsx">
-                                <small class="form-text text-muted">Chỉ nhận file .xlsx theo đúng template danh sách nhân viên.</small>
+                                <label for="importFile"
+                                       style="font-size:0.82rem; font-weight:600; color:#4a5578; text-transform:uppercase; letter-spacing:0.04em;">
+                                    File Excel
+                                </label>
+                                <input id="importFile" name="file" type="file" class="form-control-file" accept=".xlsx"
+                                       aria-describedby="importFileHint importFileError">
+                                <small id="importFileHint" class="form-text text-muted">Chỉ nhận file <strong>.xlsx</strong> theo đúng template danh sách nhân viên.</small>
                                 <small id="importFileError" class="form-error d-none"></small>
                             </div>
 
-                            <div class="import-template-box d-flex flex-wrap align-items-center justify-content-between">
+                            <div class="import-template-box">
                                 <div>
-                                    <div class="font-weight-bold">File mẫu</div>
-                                    <div class="text-muted small">Nhấn tải xuống để dùng đúng cấu trúc cột nhập liệu.</div>
+                                    <div class="font-weight-bold">
+                                        <i class="bi bi-file-earmark-excel-fill" style="color:#1d6f42;" aria-hidden="true"></i>
+                                        File mẫu nhập liệu
+                                    </div>
+                                    <div class="text-muted small mt-1">Tải xuống để sử dụng đúng cấu trúc cột khi nhập danh sách nhân viên.</div>
                                 </div>
-                                <a class="btn btn-outline-secondary btn-sm" th:href="@{/employees/import/template}">Tải file mẫu</a>
+                                <a class="btn btn-outline-secondary" th:href="@{/employees/import/template}" aria-label="Tải file mẫu Excel">
+                                    <i class="bi bi-download" aria-hidden="true"></i>
+                                    Tải file mẫu
+                                </a>
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-light" data-dismiss="modal">Hủy</button>
-                            <button id="employeeImportSubmitBtn" type="submit" class="btn btn-primary">Nhập dữ liệu</button>
+                            <button id="employeeImportSubmitBtn" type="submit" class="btn btn-primary">
+                                <i class="bi bi-upload" aria-hidden="true" style="margin-right:5px;"></i>
+                                Nhập dữ liệu
+                            </button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
 
+        <!-- Modal state (JS hook) -->
         <div id="employeeModalState"
              th:attr="data-open-modal=${openEmployeeModal},data-open-import-modal=${openImportModal},data-modal-mode=${modalMode != null ? #strings.toLowerCase(modalMode.name()) : 'create'},data-form-action=${employeeFormAction}"></div>
+
     </div>
 </div>
 </html>

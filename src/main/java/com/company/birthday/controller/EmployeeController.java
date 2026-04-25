@@ -50,9 +50,10 @@ public class EmployeeController {
     @GetMapping("/employees")
     public String employeeList(
             @PageableDefault(sort = "employeeCode", direction = Sort.Direction.ASC) Pageable pageable,
+            @RequestParam(value = "keyword", required = false) String keyword,
             Model model
     ) {
-        loadEmployeePage(model, pageable);
+        loadEmployeePage(model, keyword, pageable);
         if (!model.containsAttribute("openEmployeeModal")) {
             model.addAttribute("openEmployeeModal", false);
         }
@@ -75,17 +76,21 @@ public class EmployeeController {
     public String createEmployee(
             @PageableDefault(sort = "employeeCode", direction = Sort.Direction.ASC) Pageable pageable,
             @Valid @ModelAttribute("employeeForm") EmployeeFormRequest employeeForm,
+            @RequestParam(value = "keyword", required = false) String keyword,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
-            return handleFormError(model, pageable, ModalMode.CREATE, "/employees");
+            return handleFormError(model, keyword, pageable, ModalMode.CREATE, "/employees");
         }
 
         try {
             employeeService.createEmployee(employeeForm);
             redirectAttributes.addFlashAttribute("successMessage", "Thêm nhân viên thành công.");
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                redirectAttributes.addAttribute("keyword", keyword.trim());
+            }
             return "redirect:/employees";
         } catch (DuplicateFieldException ex) {
             bindingResult.rejectValue(ex.getFieldName(), "", ex.getMessage());
@@ -93,25 +98,29 @@ public class EmployeeController {
             bindingResult.rejectValue("departmentId", "", ex.getMessage());
         }
 
-        return handleFormError(model, pageable, ModalMode.CREATE, "/employees");
+        return handleFormError(model, keyword, pageable, ModalMode.CREATE, "/employees");
     }
 
     @PostMapping("/employees/{employeeId}")
     public String updateEmployee(
             @PathVariable Integer employeeId,
             @PageableDefault(sort = "employeeCode", direction = Sort.Direction.ASC) Pageable pageable,
+            @RequestParam(value = "keyword", required = false) String keyword,
             @Valid @ModelAttribute("employeeForm") EmployeeFormRequest employeeForm,
             BindingResult bindingResult,
             Model model,
             RedirectAttributes redirectAttributes
     ) {
         if (bindingResult.hasErrors()) {
-            return handleFormError(model, pageable, ModalMode.UPDATE, "/employees/" + employeeId);
+            return handleFormError(model, keyword, pageable, ModalMode.UPDATE, "/employees/" + employeeId);
         }
 
         try {
             employeeService.updateEmployee(employeeId, employeeForm);
             redirectAttributes.addFlashAttribute("successMessage", "Cập nhật nhân viên thành công.");
+            if (keyword != null && !keyword.trim().isEmpty()) {
+                redirectAttributes.addAttribute("keyword", keyword.trim());
+            }
             return "redirect:/employees";
         } catch (DuplicateFieldException ex) {
             bindingResult.rejectValue(ex.getFieldName(), "", ex.getMessage());
@@ -119,12 +128,13 @@ public class EmployeeController {
             bindingResult.reject("employee.notFound", ex.getMessage());
         }
 
-        return handleFormError(model, pageable, ModalMode.UPDATE, "/employees/" + employeeId);
+        return handleFormError(model, keyword, pageable, ModalMode.UPDATE, "/employees/" + employeeId);
     }
 
     @PostMapping("/employees/{employeeId}/delete")
     public String deleteEmployee(
             @PathVariable Integer employeeId,
+            @RequestParam(value = "keyword", required = false) String keyword,
             Pageable pageable,
             RedirectAttributes redirectAttributes
     ) {
@@ -137,12 +147,16 @@ public class EmployeeController {
 
         redirectAttributes.addAttribute("page", Math.max(pageable.getPageNumber(), 0));
         redirectAttributes.addAttribute("size", Math.max(pageable.getPageSize(), 1));
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            redirectAttributes.addAttribute("keyword", keyword.trim());
+        }
         return "redirect:/employees";
     }
 
     @PostMapping("/employees/import")
     public String importEmployees(
             @PageableDefault(sort = "employeeCode", direction = Sort.Direction.ASC) Pageable pageable,
+            @RequestParam(value = "keyword", required = false) String keyword,
             @RequestParam("file") MultipartFile file,
             RedirectAttributes redirectAttributes
     ) {
@@ -169,6 +183,9 @@ public class EmployeeController {
 
         redirectAttributes.addAttribute("page", Math.max(pageable.getPageNumber(), 0));
         redirectAttributes.addAttribute("size", Math.max(pageable.getPageSize(), 20));
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            redirectAttributes.addAttribute("keyword", keyword.trim());
+        }
         return "redirect:/employees";
     }
 
@@ -186,17 +203,18 @@ public class EmployeeController {
         return new ResponseEntity<>(template, headers, HttpStatus.OK);
     }
 
-    private void loadEmployeePage(Model model, Pageable pageable) {
-        Page<EmployeeListResponse> employeePage = employeeService.getActiveEmployees(pageable);
+    private void loadEmployeePage(Model model, String keyword, Pageable pageable) {
+        Page<EmployeeListResponse> employeePage = employeeService.getActiveEmployees(keyword, pageable);
 
+        model.addAttribute("keyword", keyword);
         model.addAttribute("employees", employeePage.getContent());
         model.addAttribute("departments", employeeService.getAllDepartments());
         model.addAttribute("pagination", PaginationView.from(employeePage));
         model.addAttribute("baseUrl", "/employees");
     }
 
-    private String handleFormError(Model model, Pageable pageable, ModalMode mode, String formAction) {
-        loadEmployeePage(model, pageable);
+    private String handleFormError(Model model, String keyword, Pageable pageable, ModalMode mode, String formAction) {
+        loadEmployeePage(model, keyword, pageable);
         model.addAttribute("openEmployeeModal", true);
         model.addAttribute("openImportModal", false);
         model.addAttribute("modalMode", mode);

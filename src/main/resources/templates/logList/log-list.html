@@ -1,96 +1,144 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{common/layout :: layout(pageTitle='Nhật Ký Gửi', activeMenu='logs', content=~{::content}, pageStyles=~{logList/assets :: pageStyles}, pageScripts=~{logList/assets :: pageScripts})}">
+    th:replace="~{common/layout :: layout(pageTitle='Nhật Ký Gửi', activeMenu='logs', content=~{::content}, pageStyles=~{logList/assets :: pageStyles}, pageScripts=~{logList/assets :: pageScripts})}">
 <div th:fragment="content">
     <div class="log-page">
+        <!-- Main data card -->
         <div class="card border-0 shadow-sm log-card">
             <div class="card-body p-0">
-                <div class="d-flex flex-wrap align-items-center justify-content-between log-toolbar">
+
+                <!-- Toolbar -->
+                <div class="log-toolbar">
                     <div>
-                        <h2 class="h5 mb-1 text-dark">Nhật Ký Gửi</h2>
-                        <p class="text-muted mb-0">Lịch sử lời chúc qua các kênh.</p>
+                        <!-- <h2 class="h5 mb-1 text-dark" style="font-weight: 700; color: #1a2540 !important;">Nhật Ký Gửi</h2> -->
+                        <p class="text-muted mb-0" style="font-size: 0.88rem;">Lịch sử lời chúc qua các kênh.</p>
                     </div>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0 log-table">
+                <!-- Data table -->
+                <div class="table-responsive log-table-wrap">
+                    <table class="table mb-0 log-table" aria-label="Nhật ký gửi">
                         <thead>
-                        <tr>
-                            <th>STT</th>
-                            <th>Tên nhân viên</th>
-                            <th>Kênh gửi</th>
-                            <th>Trạng thái</th>
-                            <th>Thời gian gửi</th>
-                            <th class="text-center">*</th>
-                        </tr>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Tên nhân viên</th>
+                                <th scope="col">Kênh gửi</th>
+                                <th scope="col">Thời gian gửi</th>
+                                <th scope="col">Trạng thái</th>
+                                <th scope="col" class="text-center">Thao tác</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="log : ${logs}">
-                            <td th:text="${log.index}">1</td>
-                            <td class="font-weight-bold" th:text="${log.employeeName}">Nguyen Van A</td>
-                            <td th:text="${log.channel}">EMAIL</td>
-                            <td>
-                                <span class="status-badge"
-                                      th:classappend="${log.status.name() == 'SUCCESS'} ? ' status-success' : ' status-failed'"
-                                      th:text="${log.status}">SUCCESS</span>
-                            </td>
-                            <td th:text="${log.sendTime != null ? #temporals.format(log.sendTime, 'dd/MM/yyyy HH:mm:ss') : ''}">13/04/2026 08:00:00</td>
-                            <td>
-                                <div class="d-flex justify-content-center action-wrap">
-                                    <a href="#"
-                                       class="action-btn detail-btn js-open-log-detail"
-                                       title="Chi tiet"
-                                       aria-label="Chi tiet"
-                                       th:attr="data-log-id=${log.logId},
+                            <tr th:each="log : ${logs}">
+                                <td>
+                                    <span class="row-index" th:text="${log.index}">1</span>
+                                </td>
+                                <td class="emp-name" th:text="${log.employeeName}">Nguyen Van A</td>
+                                <td>
+                                    <span class="channel-badge"
+                                        th:classappend="${'channel-' + #strings.toLowerCase(log.channel)}"
+                                        th:text="${log.channel}">EMAIL</span>
+                                </td>
+                                <td class="time-cell"
+                                    th:text="${log.sendTime != null ? #temporals.format(log.sendTime, 'dd/MM/yyyy HH:mm') : '—'}">
+                                    13/04/2026 08:00</td>
+                                <td>
+                                    <span class="status-badge"
+                                        th:classappend="${log.status.name() == 'SUCCESS'} ? ' status-success' : ' status-failed'">
+                                        <i
+                                            th:class="${log.status.name() == 'SUCCESS'} ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'"></i>
+                                        <span
+                                            th:text="${log.status.name() == 'SUCCESS' ? 'Thành công' : 'Thất bại'}">SUCCESS</span>
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="action-wrap">
+                                        <a href="#" class="action-btn view-btn js-open-log-detail" title="Xem chi tiết"
+                                            aria-label="Xem chi tiết" th:attr="data-log-id=${log.logId},
                                                 data-log-employee-name=${log.employeeName},
                                                 data-log-channel=${log.channel},
                                                 data-log-status=${log.status},
                                                 data-log-send-time=${log.sendTime != null ? #temporals.format(log.sendTime, 'dd/MM/yyyy HH:mm:ss') : ''},
                                                 data-log-message=${log.message},
                                                 data-log-error=${log.errorMessage}">
-                                        Xem
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr th:if="${#lists.isEmpty(logs)}">
-                            <td colspan="6" class="text-center text-muted py-4">Khong co du lieu nhat ky gui.</td>
-                        </tr>
+                                            <svg viewBox="0 0 24 24" role="img" aria-hidden="true" focusable="false">
+                                                <path
+                                                    d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+
+                            <!-- Empty state -->
+                            <tr class="empty-state-row" th:if="${#lists.isEmpty(logs)}">
+                                <td colspan="6">
+                                    <div class="empty-state">
+                                        <div class="empty-state-icon">
+                                            <i class="bi bi-journal-text" aria-hidden="true"></i>
+                                        </div>
+                                        <p class="empty-state-text mb-0">Chưa có nhật ký gửi</p>
+                                        <p style="font-size:0.78rem; color:#b8becc; margin:0">Lịch sử gửi thông báo sẽ
+                                            xuất hiện ở đây</p>
+                                    </div>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
 
+                <!-- Pagination -->
                 <div th:replace="~{common/pagination :: pager(pagination=${pagination}, baseUrl=${baseUrl})}"></div>
             </div>
         </div>
 
-        <div class="modal fade" id="logDetailModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- Detail Modal -->
+        <div class="modal fade" id="logDetailModal" tabindex="-1" role="dialog" aria-hidden="true"
+            aria-labelledby="logModalTitle">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content log-modal">
                     <div class="modal-header">
-                        <h5 class="modal-title">Chi Tiết Nhật Ký Gửi</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <div>
+                            <h5 class="modal-title" id="logModalTitle">Chi Tiết Nhật Ký</h5>
+                            <p style="font-size:0.8rem; color:#9aa0b5; margin:3px 0 0;">Xem thông tin chi tiết của lời
+                                chúc đã gửi.</p>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="row mb-2">
-                            <div class="col-md-6"><strong>Nhân viên:</strong> <span id="detailEmployeeName"></span></div>
-                            <div class="col-md-6"><strong>Kênh gửi:</strong> <span id="detailChannel"></span></div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-md-6"><strong>Trạng thái:</strong> <span id="detailStatus"></span></div>
-                            <div class="col-md-6"><strong>Thời gian gửi:</strong> <span id="detailSendTime"></span></div>
+                        <div class="log-info-grid mb-4">
+                            <div class="info-item">
+                                <span class="info-label">Nhân viên</span>
+                                <span class="info-value emp-value" id="detailEmployeeName"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Kênh gửi</span>
+                                <span class="info-value" id="detailChannel"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Thời gian gửi</span>
+                                <span class="info-value time-value" id="detailSendTime"></span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Trạng thái</span>
+                                <span class="info-value" id="detailStatusWrapper">
+                                    <span class="status-badge" id="detailStatus"></span>
+                                </span>
+                            </div>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label class="font-weight-bold" for="detailMessage">Nội dung đã gửi:</label>
-                            <textarea id="detailMessage" class="form-control" rows="7" readonly></textarea>
+                            <label class="form-label" for="detailMessage">Nội dung đã gửi</label>
+                            <textarea id="detailMessage" class="form-control message-box" rows="6" readonly></textarea>
                         </div>
 
-                        <div class="form-group mb-0">
-                            <label class="font-weight-bold" for="detailError">Lỗi</label>
-                            <textarea id="detailError" class="form-control" rows="4" readonly></textarea>
+                        <div class="form-group mb-0" id="detailErrorGroup" style="display: none;">
+                            <label class="form-label text-danger" for="detailError">
+                                <i class="bi bi-exclamation-triangle-fill mr-1"></i> Lỗi chi tiết
+                            </label>
+                            <textarea id="detailError" class="form-control error-box" rows="3" readonly></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -101,5 +149,5 @@
         </div>
     </div>
 </div>
-</html>
 
+</html>

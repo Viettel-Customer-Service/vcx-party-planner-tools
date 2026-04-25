@@ -1,5 +1,6 @@
 package com.company.birthday.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -7,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 public class BirthdayConfigRequest {
 
     @NotNull(message = "Trang thai bat/tat khong duoc de trong")
+    @JsonProperty("enabled")
     private Boolean enabled;
 
     @NotNull(message = "Gio khong duoc de trong")

@@ -3,9 +3,9 @@ spring:
     name: birthday-notification
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: 123
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:123}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -82,12 +82,12 @@ spring:
 green-api:
   host: https://api.green-api.com
   hostMedia: https://media.green-api.com
-  instanceId: 7107594392
-  token: b54c73d547204c48943f17c4e02aecf5804126494021456898
+  instanceId: ${GREEN_API_INSTANCE_ID:7107594392}
+  token: ${GREEN_API_TOKEN:b54c73d547204c48943f17c4e02aecf5804126494021456898}
 
 gemini:
   api:
-    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent
 #    key: ${GEMINI_API_KEY:AIzaSyAakH1WNlGQ5qPoDCPcvt9QXVSXAXguwsQ}
     key: ${GEMINI_API_KEY:AIzaSyAt5sgyqXZxChK8ARpdHebUgNWtMZJ-AJg}
     connect-timeout-ms: ${GEMINI_CONNECT_TIMEOUT_MS:5000}

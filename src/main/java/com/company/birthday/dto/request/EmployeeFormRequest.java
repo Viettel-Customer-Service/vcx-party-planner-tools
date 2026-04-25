@@ -14,6 +14,7 @@ public class EmployeeFormRequest {
     @NotBlank(message = "Vui long nhap chuc danh.")
     private String jobTitle;
 
+    @NotBlank(message = "Vui long nhap ma nhan vien.")
     private String employeeCode;
 
     @NotBlank(message = "Vui long nhap ho va ten.")
@@ -50,7 +51,13 @@ public class EmployeeFormRequest {
     }
 
     public void setEmployeeCode(String employeeCode) {
-        this.employeeCode = employeeCode;
+        if (employeeCode == null) {
+            this.employeeCode = null;
+            return;
+        }
+
+        String normalized = employeeCode.trim();
+        this.employeeCode = normalized.isBlank() ? null : normalized;
     }
 
     public String getFullName() {
@@ -82,7 +89,13 @@ public class EmployeeFormRequest {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (email == null) {
+            this.email = null;
+            return;
+        }
+
+        String normalized = email.trim();
+        this.email = normalized.isBlank() ? null : normalized;
     }
 }
 

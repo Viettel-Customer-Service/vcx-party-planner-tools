@@ -11,6 +11,7 @@ import com.company.birthday.service.EmployeeService;
 import com.company.birthday.service.exception.DuplicateFieldException;
 import com.company.birthday.service.mapper.EmployeeMapper;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.*;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -39,6 +40,8 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
+
+@Slf4j
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -60,8 +63,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Page<EmployeeListResponse> getActiveEmployees(Pageable pageable) {
-		Page<Employee> employeePage = employeeRepository.findByIsActiveTrue(pageable);
+	public Page<EmployeeListResponse> getActiveEmployees(String keyword, Pageable pageable) {
+		Page<Employee> employeePage;
+		if (keyword != null && !keyword.trim().isEmpty()) {
+			employeePage = employeeRepository.findByKeyword(keyword.trim(), pageable);
+		} else {
+			employeePage = employeeRepository.findByIsActiveTrue(pageable);
+		}
 		AtomicInteger rowNumber = new AtomicInteger((int) pageable.getOffset() + 1);
 		return employeePage.map(employee -> employeeMapper.toListResponse(employee, rowNumber.getAndIncrement()));
 	}
@@ -106,7 +114,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 					response.status()
 			));
 		}
-
+		log.info("phần tử: ", responses.size());
 		return responses;
 	}
 
@@ -325,7 +333,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public byte[] downloadEmployeeTemplate() {
-		ClassPathResource template = new ClassPathResource("templates/employeeList/ThemDanhSachNhanVien.xlsx");
+		ClassPathResource template = new ClassPathResource("templates/ThemDanhSachNhanVien.xlsx");
 		try (InputStream inputStream = template.getInputStream()) {
 			return inputStream.readAllBytes();
 		} catch (Exception ex) {
@@ -366,7 +374,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return null;
 		}
 
-		return EMPLOYEE_CODE_PATTERN.matcher(normalized).matches() ? normalized : null;
+		return normalized;
 	}
 
 	private String normalizeEmail(String email) {

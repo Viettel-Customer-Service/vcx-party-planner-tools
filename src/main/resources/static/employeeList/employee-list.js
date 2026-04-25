@@ -367,6 +367,28 @@
         }
     }
 
+    var searchInput = document.querySelector('.employee-search-form .search-input');
+    var searchForm = document.querySelector('.employee-search-form');
+    
+    if (searchInput && searchForm) {
+        if (sessionStorage.getItem('employeeSearchFocused') === 'true') {
+            searchInput.focus();
+            var val = searchInput.value;
+            searchInput.value = '';
+            searchInput.value = val;
+            sessionStorage.removeItem('employeeSearchFocused');
+        }
+
+        var debounceTimer;
+        searchInput.addEventListener('input', function () {
+            clearTimeout(debounceTimer);
+            debounceTimer = setTimeout(function () {
+                sessionStorage.setItem('employeeSearchFocused', 'true');
+                searchForm.submit();
+            }, 1000);
+        });
+    }
+
     loadUpcomingBirthdays();
 })();
 

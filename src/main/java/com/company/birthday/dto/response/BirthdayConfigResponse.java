@@ -1,7 +1,10 @@
 package com.company.birthday.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class BirthdayConfigResponse {
 
+    @JsonProperty("enabled")
     private boolean enabled;
     private int hour;
     private int minute;

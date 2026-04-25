@@ -1,72 +1,118 @@
 <nav xmlns:th="http://www.thymeleaf.org"
      th:fragment="sidebar(activeMenu)"
-     class="app-sidebar bg-white border-right d-flex flex-column">
-    <div class="p-4 h-100 d-flex flex-column">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <div class="d-flex align-items-center">
-                <span class="brand-mark" aria-hidden="true">
-                    <img th:src="@{/images/VCX_logo.jpg}" alt="Company logo" class="brand-mark-image">
-                </span>
-<!--                <strong class="brand-name">Noti</strong>-->
+     id="appSidebar"
+     class="app-sidebar d-flex flex-column"
+     aria-label="Menu điều hướng chính">
+
+    <!-- ── Brand / Logo ────────────────────────────── -->
+    <div class="sidebar-brand">
+        <div class="sidebar-brand-logo">
+            <img th:src="@{/images/VCX_logo.jpg}"
+                 alt="VCX Logo"
+                 class="brand-logo-img">
+        </div>
+        <div class="sidebar-brand-text">
+            <span class="sidebar-brand-name">VCX Noti</span>
+            <span class="sidebar-brand-tagline">Birthday System</span>
+        </div>
+        <button id="sidebarToggle"
+                type="button"
+                class="sidebar-collapse-btn"
+                aria-label="Thu gọn menu"
+                data-tooltip="Thu gọn menu">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M15 18l-6-6 6-6"/>
+            </svg>
+        </button>
+    </div>
+
+    <!-- ── Navigation ──────────────────────────────── -->
+    <nav class="sidebar-nav flex-grow-1" aria-label="Tính năng">
+
+        <!-- Group: Danh sách -->
+        <div class="nav-group">
+            <div class="nav-group-label">
+                <span class="nav-group-label-text">Danh sách</span>
             </div>
-            <button id="sidebarToggle" type="button" class="btn btn-sm btn-light border sidebar-toggle-btn"
-                    aria-label="Toggle sidebar">
-                <span class="sidebar-toggle-icon">&#9776;</span>
-            </button>
+
+            <a class="sidebar-link"
+               th:classappend="${activeMenu} == 'employees' ? ' active' : ''"
+               th:href="@{/employees}"
+               data-tooltip="Danh Sách Nhân Viên">
+                <span class="nav-icon" aria-hidden="true">
+                    <i class="bi bi-people-fill"></i>
+                </span>
+                <span class="sidebar-label">Danh Sách Nhân Viên</span>
+                <span class="nav-active-bar"></span>
+            </a>
+
+            <a class="sidebar-link"
+               th:classappend="${activeMenu} == 'messages' ? ' active' : ''"
+               th:href="@{/messages}"
+               data-tooltip="Danh Sách Lời Chúc">
+                <span class="nav-icon" aria-hidden="true">
+                    <i class="bi bi-chat-heart-fill"></i>
+                </span>
+                <span class="sidebar-label">Danh Sách Lời Chúc</span>
+                <span class="nav-active-bar"></span>
+            </a>
         </div>
 
-        <ul class="nav flex-column sidebar-nav mb-auto">
-            <li class="sidebar-section">Danh sách</li>
+        <!-- Group: Quản lý -->
+        <div class="nav-group">
+            <div class="nav-group-label">
+                <span class="nav-group-label-text">Quản lý</span>
+            </div>
 
-            <li class="nav-item mb-1">
-                <a class="nav-link sidebar-link"
-                   th:classappend="${activeMenu} == 'employees' ? ' active' : ''"
-                   th:href="@{/employees}">
-                    <span class="nav-icon" aria-hidden="true"><i class="bi bi-people-fill"></i></span>
-                    <span class="sidebar-label">Danh Sách Nhân Viên</span>
-                </a>
-            </li>
+            <a class="sidebar-link"
+               th:classappend="${activeMenu} == 'test' ? ' active' : ''"
+               th:href="@{/test}"
+               data-tooltip="Test Gửi Lời Chúc">
+                <span class="nav-icon" aria-hidden="true">
+                    <i class="bi bi-send-check-fill"></i>
+                </span>
+                <span class="sidebar-label">Test Gửi Lời Chúc</span>
+                <span class="nav-active-bar"></span>
+            </a>
 
-            <li class="nav-item mb-1">
-                <a class="nav-link sidebar-link"
-                   th:classappend="${activeMenu} == 'messages' ? ' active' : ''"
-                   th:href="@{/messages}">
-                    <span class="nav-icon" aria-hidden="true"><i class="bi bi-chat-heart-fill"></i></span>
-                    <span class="sidebar-label">Danh Sách Lời Chúc</span>
-                </a>
-            </li>
+            <a class="sidebar-link"
+               th:classappend="${activeMenu} == 'logs' ? ' active' : ''"
+               th:href="@{/logs}"
+               data-tooltip="Nhật Ký Gửi">
+                <span class="nav-icon" aria-hidden="true">
+                    <i class="bi bi-clock-history"></i>
+                </span>
+                <span class="sidebar-label">Nhật Ký Gửi</span>
+                <span class="nav-active-bar"></span>
+            </a>
+        </div>
 
-            <li class="sidebar-section">Quản lý</li>
+        <!-- Group: Hệ thống -->
+        <div class="nav-group">
+            <div class="nav-group-label">
+                <span class="nav-group-label-text">Hệ thống</span>
+            </div>
 
-            <li class="nav-item mb-1">
-                <a class="nav-link sidebar-link"
-                   th:classappend="${activeMenu} == 'test' ? ' active' : ''"
-                   th:href="@{/test}">
-                    <span class="nav-icon" aria-hidden="true"><i class="bi bi-send-check-fill"></i></span>
-                    <span class="sidebar-label">Test Gửi Lời Chúc</span>
-                </a>
-            </li>
+            <a class="sidebar-link"
+               th:classappend="${activeMenu} == 'settings' ? ' active' : ''"
+               th:href="@{/settings}"
+               data-tooltip="Cài Đặt">
+                <span class="nav-icon" aria-hidden="true">
+                    <i class="bi bi-gear-fill"></i>
+                </span>
+                <span class="sidebar-label">Cài Đặt</span>
+                <span class="nav-active-bar"></span>
+            </a>
+        </div>
 
-            <li class="nav-item mb-1">
-                <a class="nav-link sidebar-link"
-                   th:classappend="${activeMenu} == 'logs' ? ' active' : ''"
-                   th:href="@{/logs}">
-                    <span class="nav-icon" aria-hidden="true"><i class="bi bi-clock-history"></i></span>
-                    <span class="sidebar-label">Nhật ký gửi</span>
-                </a>
-            </li>
+    </nav>
 
-            <li class="sidebar-section">Cài đặt</li>
-
-            <li class="nav-item mb-1">
-                <a class="nav-link sidebar-link"
-                   th:classappend="${activeMenu} == 'settings' ? ' active' : ''"
-                   th:href="@{/settings}">
-                    <span class="nav-icon" aria-hidden="true"><i class="bi bi-gear-fill"></i></span>
-                    <span class="sidebar-label">Cài đặt</span>
-                </a>
-            </li>
-
-        </ul>
+    <!-- ── Footer: Version tag ──────────────────────── -->
+    <div class="sidebar-footer">
+        <div class="sidebar-version-badge">
+            <i class="bi bi-heart-fill sidebar-version-icon" aria-hidden="true"></i>
+            <span class="sidebar-label sidebar-version-text">Birthday Notification</span>
+        </div>
     </div>
+
 </nav>
