@@ -325,7 +325,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Override
 	public byte[] downloadEmployeeTemplate() {
-		ClassPathResource template = new ClassPathResource("templates/employeeList/ThemDanhSachNhanVien.xlsx");
+		ClassPathResource template = new ClassPathResource("templates/ThemDanhSachNhanVien.xlsx");
 		try (InputStream inputStream = template.getInputStream()) {
 			return inputStream.readAllBytes();
 		} catch (Exception ex) {

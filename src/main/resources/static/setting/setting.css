@@ -1,103 +1,514 @@
+/* ============================================================
+   Setting Page — Professional Redesign
+   VCX Birthday Notification Tool
+   ============================================================ */
+
+/* ── Page wrapper ────────────────────────────────────────── */
 .setting-page {
-    background: linear-gradient(180deg, #fff4f7 0%, #ffedf2 100%);
-    border-radius: 18px;
-    padding: 16px;
+    padding: 8px 0;
+    max-width: 900px;
 }
 
-.setting-card {
-    border-radius: 16px;
+/* ── Hero banner ─────────────────────────────────────────── */
+.setting-hero {
+    background: linear-gradient(135deg, #ee0033 0%, #c4002b 60%, #8b001f 100%);
+    border-radius: 20px;
+    padding: 32px 36px;
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
     overflow: hidden;
-    background: #ffffff;
+    box-shadow: 0 8px 32px rgba(238, 0, 51, 0.28);
 }
 
+.setting-hero::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 320px;
+    height: 320px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    pointer-events: none;
+}
+
+.setting-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    right: 15%;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.04);
+    pointer-events: none;
+}
+
+.setting-hero-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: #fff;
+    flex-shrink: 0;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.setting-hero-text {
+    flex: 1;
+}
+
+.setting-hero-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 4px;
+    letter-spacing: -0.3px;
+}
+
+.setting-hero-subtitle {
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.78);
+    margin: 0;
+}
+
+.setting-hero-badge {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 50px;
+    padding: 5px 16px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    backdrop-filter: blur(4px);
+    flex-shrink: 0;
+}
+
+/* ── Section card ────────────────────────────────────────── */
+.setting-section-card {
+    background: #ffffff;
+    border-radius: 18px;
+    border: 1px solid #eceef4;
+    box-shadow: 0 2px 12px rgba(20, 28, 60, 0.06);
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: box-shadow 0.25s ease;
+}
+
+.setting-section-card:hover {
+    box-shadow: 0 6px 24px rgba(20, 28, 60, 0.10);
+}
+
+.setting-section-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #f0f2f6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.setting-section-header-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #fff0f3 0%, #ffe5eb 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ee0033;
+    font-size: 17px;
+    flex-shrink: 0;
+}
+
+.setting-section-header-text h3 {
+    font-size: 0.985rem;
+    font-weight: 700;
+    color: #1f2940;
+    margin: 0 0 2px;
+}
+
+.setting-section-header-text p {
+    font-size: 0.8rem;
+    color: #8490a8;
+    margin: 0;
+}
+
+.setting-section-body {
+    padding: 24px;
+}
+
+/* ── Setting row ─────────────────────────────────────────── */
+.setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid #f3f4f8;
+}
+
+.setting-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.setting-row:first-child {
+    padding-top: 0;
+}
+
+.setting-row-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.setting-row-label {
+    font-size: 0.93rem;
+    font-weight: 600;
+    color: #1f2940;
+    margin-bottom: 3px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.setting-row-label .badge-required {
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #fff0f3;
+    color: #ee0033;
+    border: 1px solid #ffd0da;
+    border-radius: 4px;
+    padding: 2px 6px;
+}
+
+.setting-row-desc {
+    font-size: 0.79rem;
+    color: #9aa0b5;
+    margin: 0;
+    line-height: 1.45;
+}
+
+.setting-row-control {
+    flex-shrink: 0;
+}
+
+/* ── Modern Toggle ───────────────────────────────────────── */
+.toggle-wrapper {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.toggle-input {
+    display: none;
+}
+
+.toggle-label {
+    display: inline-block;
+    position: relative;
+    width: 52px;
+    height: 28px;
+    background: #d5dae6;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.toggle-inner {
+    display: none;
+}
+
+.toggle-switch {
+    display: block;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    background: #fff;
+    border-radius: 50%;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+}
+
+.toggle-text-on,
+.toggle-text-off {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0px;
+    font-weight: 600;
+    transition: opacity 0.25s ease;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.toggle-text-off {
+    left: 4px;
+    color: #fff;
+    opacity: 0;
+}
+
+.toggle-text-on {
+    right: 4px;
+    color: #fff;
+    opacity: 0;
+}
+
+.toggle-input:checked + .toggle-label {
+    background: linear-gradient(135deg, #ee0033 0%, #c4002b 100%);
+    box-shadow: 0 2px 8px rgba(238, 0, 51, 0.35);
+}
+
+.toggle-input:checked + .toggle-label .toggle-switch {
+    left: 27px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-status-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #9aa0b5;
+    transition: color 0.25s ease;
+    min-width: 28px;
+    user-select: none;
+}
+
+.toggle-input:checked ~ .toggle-status-text {
+    color: #ee0033;
+}
+
+/* ── Time input ──────────────────────────────────────────── */
+.setting-time-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0;
+}
+
+.setting-time-input {
+    width: 140px;
+    height: 44px;
+    border: 1.5px solid #e0e4ef;
+    border-radius: 12px;
+    padding: 0 16px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #1f2940;
+    background: #f8fafd;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.setting-time-input:focus,
+.setting-time-input:hover {
+    border-color: #ee0033;
+    background: #fff;
+    box-shadow: 0 0 0 3.5px rgba(238, 0, 51, 0.12);
+}
+
+/* ── Save button ─────────────────────────────────────────── */
+.setting-actions {
+    padding: 20px 24px;
+    background: #fafbfd;
+    border-top: 1px solid #f0f2f6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+#saveSettingBtn {
+    height: 44px;
+    padding: 0 28px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #ee0033 0%, #c4002b 100%);
+    border: none;
+    color: #fff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    letter-spacing: 0.2px;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    box-shadow: 0 4px 14px rgba(238, 0, 51, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#saveSettingBtn:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(238, 0, 51, 0.4);
+}
+
+#saveSettingBtn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 3px 10px rgba(238, 0, 51, 0.3);
+}
+
+#saveSettingBtn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none;
+}
+
+#saveSettingBtn .btn-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.setting-save-hint {
+    font-size: 0.78rem;
+    color: #a8afbf;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* ── Status indicator ────────────────────────────────────── */
+.setting-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 14px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    background: #f0f4ff;
+    color: #6c7799;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.setting-status-pill.active {
+    background: #e8fff2;
+    color: #1a7a48;
+}
+
+.setting-status-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #c5cce0;
+    transition: background 0.25s ease;
+    flex-shrink: 0;
+}
+
+.setting-status-pill.active .setting-status-dot {
+    background: #22c55e;
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25);
+    animation: pulse-dot 2s infinite;
+}
+
+@keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.25); }
+    50%       { box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15); }
+}
+
+/* ── Toast Notification ──────────────────────────────────── */
 .setting-toast-container {
     position: fixed;
     top: 24px;
     right: 24px;
     z-index: 1080;
-    width: min(360px, calc(100vw - 32px));
+    width: min(380px, calc(100vw - 32px));
 }
 
 .setting-toast {
     display: block;
     opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transform: translateX(20px) translateY(-6px);
+    transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 0;
-    box-shadow: 0 12px 30px rgba(22, 36, 71, 0.16);
-    border-radius: 14px;
+    border-radius: 16px;
     overflow: hidden;
     pointer-events: none;
+    box-shadow: 0 16px 40px rgba(20, 28, 60, 0.18);
 }
 
 .setting-toast.show {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0) translateY(0);
     pointer-events: auto;
 }
 
 .setting-toast .toast-header {
     border-bottom: 0;
-    padding: 0.7rem 0.9rem;
+    padding: 14px 16px 8px;
+    font-weight: 700;
+    font-size: 0.88rem;
 }
 
 .setting-toast .toast-body {
-    padding: 0.85rem 0.9rem 0.95rem;
+    padding: 4px 16px 14px;
+    font-size: 0.85rem;
     color: #22314c;
+    line-height: 1.5;
 }
 
 .setting-toast.toast-success .toast-header {
-    background: linear-gradient(90deg, #e8fff2 0%, #f1fff7 100%);
-    color: #157347;
+    background: linear-gradient(90deg, #e4faf0 0%, #f0fdf6 100%);
+    color: #15803d;
 }
 
 .setting-toast.toast-success .toast-body {
-    background: #ffffff;
+    background: #f0fdf6;
 }
 
 .setting-toast.toast-error .toast-header {
-    background: linear-gradient(90deg, #ffe8eb 0%, #fff3f5 100%);
-    color: #b02a37;
+    background: linear-gradient(90deg, #fff0f3 0%, #fff5f7 100%);
+    color: #b91c1c;
 }
 
 .setting-toast.toast-error .toast-body {
-    background: #ffffff;
+    background: #fff5f7;
 }
 
-.setting-body {
-    padding: 0;
-}
-
-.setting-toolbar {
-    padding: 20px 24px;
-    border-bottom: 1px solid #e7edf6;
-}
-
-.setting-block {
-    max-width: 420px;
-    padding: 24px;
-}
-
-.setting-time-input {
-    border-radius: 9px;
-    max-width: 220px;
-}
-
-#saveSettingBtn {
-    border-radius: 10px;
-    background: #ee0033;
-    border-color: #ee0033;
-}
-
-
-@media (max-width: 992px) {
-    .setting-page {
-        padding: 12px;
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .setting-hero {
+        padding: 22px 20px;
+        flex-wrap: wrap;
+        gap: 14px;
     }
 
-    .setting-toolbar,
-    .setting-block {
-        padding: 16px;
+    .setting-hero-badge {
+        width: 100%;
+        text-align: center;
+    }
+
+    .setting-section-header,
+    .setting-section-body,
+    .setting-actions {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .setting-row {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .setting-row-control {
+        width: 100%;
+    }
+
+    .toggle-wrapper {
+        width: 100%;
+        justify-content: space-between;
     }
 }
-

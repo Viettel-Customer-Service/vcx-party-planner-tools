@@ -11,6 +11,7 @@
     var sendTimeElement = document.getElementById('detailSendTime');
     var messageElement = document.getElementById('detailMessage');
     var errorElement = document.getElementById('detailError');
+    var errorGroup = document.getElementById('detailErrorGroup');
 
     function ensureBackdrop() {
         var existingBackdrop = document.querySelector('.modal-backdrop');
@@ -49,12 +50,26 @@
     }
 
     function fillDetail(button) {
+        var status = button.getAttribute('data-log-status') || '';
         employeeNameElement.textContent = button.getAttribute('data-log-employee-name') || '';
-        channelElement.textContent = button.getAttribute('data-log-channel') || '';
-        statusElement.textContent = button.getAttribute('data-log-status') || '';
-        sendTimeElement.textContent = button.getAttribute('data-log-send-time') || '';
+        
+        var channel = button.getAttribute('data-log-channel') || '';
+        channelElement.innerHTML = '<span class="channel-badge channel-' + channel.toLowerCase() + '">' + channel + '</span>';
+        
+        statusElement.className = 'status-badge ' + (status === 'SUCCESS' ? 'status-success' : 'status-failed');
+        statusElement.innerHTML = (status === 'SUCCESS' ? '<i class="bi bi-check-circle-fill"></i> Thành công' : '<i class="bi bi-x-circle-fill"></i> Thất bại');
+        
+        sendTimeElement.textContent = button.getAttribute('data-log-send-time') || '—';
         messageElement.value = button.getAttribute('data-log-message') || '';
-        errorElement.value = button.getAttribute('data-log-error') || '';
+        
+        var errorMsg = button.getAttribute('data-log-error') || '';
+        if (status === 'FAILED' || errorMsg) {
+            errorElement.value = errorMsg;
+            errorGroup.style.display = 'block';
+        } else {
+            errorElement.value = '';
+            errorGroup.style.display = 'none';
+        }
     }
 
     detailButtons.forEach(function (button) {
@@ -78,4 +93,3 @@
         }
     });
 })();
-

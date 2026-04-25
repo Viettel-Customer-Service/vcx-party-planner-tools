@@ -22,7 +22,6 @@ CREATE TABLE Employee (
                           EmployeeCode VARCHAR(50) UNIQUE,
                           FullName VARCHAR(255) NOT NULL,
                           JobTitle VARCHAR(255),
-
                           PhoneNumber VARCHAR(40),
                           Email VARCHAR(255) UNIQUE,
 
@@ -136,7 +135,7 @@ VALUES ('admin', 'ttcnkt@hpbd#2026', 'ADMIN', true);
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 UPDATE users
-SET password = crypt('admin', gen_salt('bf'))
+SET password = crypt('ttcnkt@hpbd#2026', gen_salt('bf'))
 WHERE username = 'admin';
 
 CREATE TABLE system_config (

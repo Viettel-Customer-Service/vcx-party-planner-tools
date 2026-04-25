@@ -1,25 +1,41 @@
 <div xmlns:th="http://www.thymeleaf.org"
      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
      th:fragment="header(pageTitle)"
-     class="app-header bg-white border-bottom px-4 py-3 d-flex align-items-start justify-content-between">
-    <div>
-        <p class="text-uppercase text-muted small mb-1">Birthday Notification</p>
-        <h1 class="h4 mb-0 text-dark" th:text="${pageTitle} ?: 'Trang chu'">Trang chu</h1>
+     class="app-header">
+
+    <!-- Left: Page title -->
+    <div class="app-header-left">
+        <p class="app-header-eyebrow">Birthday Notification</p>
+        <h1 class="app-header-title" th:text="${pageTitle} ?: 'Trang chủ'">Trang chủ</h1>
     </div>
 
+    <!-- Right: User menu -->
     <div class="dropdown user-menu" sec:authorize="isAuthenticated()">
-        <button class="btn btn-light border user-menu-btn dropdown-toggle" type="button" id="userMenuDropdown"
-                aria-haspopup="true" aria-expanded="false">
-            <span class="mr-2 text-muted">Xin chào,</span>
-            <strong th:text="${#authentication != null ? #authentication.name : 'User'}">User</strong>
+        <button class="user-menu-btn dropdown-toggle"
+                type="button"
+                id="userMenuDropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+            <span class="user-avatar" aria-hidden="true">
+                <span th:text="${#authentication != null ? #authentication.name.substring(0,1).toUpperCase() : 'U'}">U</span>
+            </span>
+            <span class="user-menu-name" th:text="${#authentication != null ? #authentication.name : 'User'}">User</span>
+            <svg class="user-menu-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="6 9 12 15 18 9"/>
+            </svg>
         </button>
-        <div class="dropdown-menu dropdown-menu-right user-menu-dropdown" aria-labelledby="userMenuDropdown">
-<!--            <span class="dropdown-item-text text-muted small"> Tai khoan</span> -->
-<!--            <span class="dropdown-item-text font-weight-bold"-->
-<!--                  th:text="${#authentication != null ? #authentication.name : ''}">username</span>-->
-<!--            <div class="dropdown-divider"></div>-->
+
+        <div class="user-menu-dropdown dropdown-menu dropdown-menu-right" aria-labelledby="userMenuDropdown">
+            <div class="user-menu-divider"></div>
             <form th:action="@{/logout}" method="post" class="mb-0">
-                <button type="submit" class="dropdown-item text-danger">Đăng xuất</button>
+                <button type="submit" class="dropdown-item text-danger">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
+                        <polyline points="16 17 21 12 16 7"/>
+                        <line x1="21" y1="12" x2="9" y2="12"/>
+                    </svg>
+                    Đăng xuất
+                </button>
             </form>
         </div>
     </div>

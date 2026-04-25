@@ -3,39 +3,64 @@
       th:replace="~{common/layout :: layout(pageTitle='Danh Sách Lời Chúc', activeMenu='messages', content=~{::content}, pageStyles=~{messageList/assets :: pageStyles}, pageScripts=~{messageList/assets :: pageScripts})}">
 <div th:fragment="content">
     <div class="message-page">
+        <!-- Main data card -->
         <div class="card border-0 shadow-sm message-card">
             <div class="card-body p-0">
-                <div class="d-flex flex-wrap align-items-center justify-content-between message-toolbar">
+                
+                <!-- Toolbar -->
+                <div class="message-toolbar">
                     <div>
-                        <h2 class="h5 mb-1 text-dark">Danh Sách Lời Chúc</h2>
-                        <p class="text-muted mb-0">Quản lý mẫu lời chúc hiển thị trong hệ thống.</p>
+                        <h2 class="h5 mb-1 text-dark" style="font-weight: 700; color: #1a2540 !important;">Danh Sách Lời Chúc</h2>
+                        <p class="text-muted mb-0" style="font-size: 0.88rem;">Quản lý mẫu lời chúc hiển thị trong hệ thống.</p>
                     </div>
-                    <button id="openCreateMessageModal" type="button" class="btn btn-primary btn-sm px-3">Thêm Lời Chúc</button>
+                    <button id="openCreateMessageModal" type="button" class="btn btn-primary add-btn">
+                        <i class="bi bi-plus" style="font-size: 1.2rem; margin-right: 2px;"></i> Thêm Lời Chúc
+                    </button>
                 </div>
 
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0 message-table">
+                <!-- Data table -->
+                <div class="table-responsive message-table-wrap">
+                    <table class="table mb-0 message-table" aria-label="Danh sách lời chúc">
                         <thead>
                         <tr>
-                            <th>STT</th>
-                            <th>Loại</th>
-                            <th>Tên</th>
-                            <th>Nội dung</th>
-                            <th class="text-center">*</th>
+                            <th scope="col">STT</th>
+                            <th scope="col">Tên lời chúc</th>
+                            <th scope="col">Loại</th>
+                            <th scope="col" style="min-width: 280px;">Nội dung</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col" class="text-center">Thao tác</th>
                         </tr>
                         </thead>
                         <tbody>
                         <tr th:each="message, stat : ${messages}">
-                            <td th:text="${pagination.currentPage * pagination.size + stat.count}">1</td>
-                            <td th:text="${message.type}">BIRTHDAY</td>
-                            <td class="font-weight-bold" th:text="${message.name}">Birthday Template Default</td>
-                            <td class="message-content" th:text="${message.content}">Chúc mừng sinh nhật...</td>
                             <td>
-                                <div class="d-flex justify-content-center action-wrap">
+                                <span class="row-index" th:text="${pagination.currentPage * pagination.size + stat.count}">1</span>
+                            </td>
+                            <td>
+                                <div class="name-cell">
+                                    <span class="message-name" th:text="${message.name}">Birthday Template Default</span>
+                                    <span th:if="${message.isDefault}" class="default-badge" title="Mặc định"><i class="bi bi-star-fill"></i></span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="type-badge" th:classappend="${'type-' + #strings.toLowerCase(message.type)}" th:text="${message.type}">BIRTHDAY</span>
+                            </td>
+                            <td>
+                                <div class="message-content" th:text="${message.content}">Chúc mừng sinh nhật...</div>
+                            </td>
+                            <td>
+                                <span class="status-badge"
+                                      th:classappend="${message.isActive} ? ' status-active' : ' status-inactive'">
+                                    <i th:class="${message.isActive} ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill'"></i>
+                                    <span th:text="${message.isActive ? 'Kích hoạt' : 'Tạm ẩn'}">Kích hoạt</span>
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-wrap">
                                     <a href="#"
                                        class="action-btn edit-btn js-edit-message"
-                                       title="Edit"
-                                       aria-label="Edit"
+                                       title="Chỉnh sửa"
+                                       aria-label="Chỉnh sửa"
                                        th:attr="data-message-id=${message.id},
                                                 data-message-type=${message.type},
                                                 data-message-name=${message.name},
@@ -49,80 +74,99 @@
                                 </div>
                             </td>
                         </tr>
-                        <tr th:if="${#lists.isEmpty(messages)}">
-                            <td colspan="5" class="text-center text-muted py-4">Không có dữ liệu lời chúc.</td>
+                        
+                        <!-- Empty state -->
+                        <tr class="empty-state-row" th:if="${#lists.isEmpty(messages)}">
+                            <td colspan="6">
+                                <div class="empty-state">
+                                    <div class="empty-state-icon">
+                                        <i class="bi bi-chat-square-text" aria-hidden="true"></i>
+                                    </div>
+                                    <p class="empty-state-text mb-0">Chưa có mẫu lời chúc nào</p>
+                                    <p style="font-size:0.78rem; color:#b8becc; margin:0">Thêm lời chúc mới để bắt đầu sử dụng</p>
+                                </div>
+                            </td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
 
+                <!-- Pagination -->
                 <div th:replace="~{common/pagination :: pager(pagination=${pagination}, baseUrl=${baseUrl})}"></div>
             </div>
         </div>
 
-        <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <!-- Detail Modal -->
+        <div class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-hidden="true" aria-labelledby="messageModalTitle">
             <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                 <div class="modal-content message-modal">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="messageModalTitle"
-                            th:text="${modalMode != null and modalMode.name() == 'UPDATE'} ? 'Cập Nhật Lời Chúc' : 'Thêm Lời Chúc'">Thêm Lời Chúc</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <div>
+                            <h5 class="modal-title" id="messageModalTitle"
+                                th:text="${modalMode != null and modalMode.name() == 'UPDATE'} ? 'Cập Nhật Lời Chúc' : 'Thêm Lời Chúc Mới'">Thêm Lời Chúc Mới</h5>
+                            <p style="font-size:0.8rem; color:#9aa0b5; margin:3px 0 0;">Quản lý nội dung mẫu gửi tự động.</p>
+                        </div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
+                    
                     <form id="messageForm"
                           th:object="${messageForm}"
                           th:action="${messageFormAction}"
                           method="post"
                           novalidate>
                         <div class="modal-body">
-                            <div class="alert alert-danger mb-3" th:if="${#fields.hasGlobalErrors()}">
-                                <p class="mb-0" th:each="error : ${#fields.globalErrors()}" th:text="${error}">Có lỗi.</p>
+                            <div class="alert alert-danger mb-3 py-2 px-3 alert-dismissible" style="border-radius: 10px; font-size: 0.88rem;" th:if="${#fields.hasGlobalErrors()}">
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="bi bi-exclamation-octagon-fill mr-2"></i>
+                                    <strong>Đã có lỗi xảy ra!</strong>
+                                </div>
+                                <p class="mb-0" th:each="error : ${#fields.globalErrors()}" th:text="'- ' + ${error}"></p>
                             </div>
 
                             <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="type">Loại</label>
+                                <div class="form-group col-md-4">
+                                    <label class="form-label" for="type">Loại thông báo <span class="text-danger">*</span></label>
                                     <select id="type" class="form-control" th:field="*{type}">
-                                        <option value="">Chọn loại lời chúc</option>
+                                        <option value="">-- Chọn loại --</option>
                                         <option th:each="typeOption : ${messageTypes}"
                                                 th:value="${typeOption}"
                                                 th:text="${typeOption}">BIRTHDAY</option>
                                     </select>
                                     <small class="form-error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></small>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="name">Tên</label>
-                                    <input id="name" type="text" class="form-control" th:field="*{name}">
+                                <div class="form-group col-md-8">
+                                    <label class="form-label" for="name">Tên hiển thị nội bộ <span class="text-danger">*</span></label>
+                                    <input id="name" type="text" class="form-control" th:field="*{name}" placeholder="Ví dụ: Chúc mừng SN Nhân viên Kỹ thuật">
                                     <small class="form-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></small>
                                 </div>
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label for="content">Nội dung</label>
-                                <textarea id="content" rows="8" class="form-control message-content-input" th:field="*{content}"></textarea>
+                            <div class="form-group mb-4">
+                                <label class="form-label" for="content">Nội dung chi tiết <span class="text-danger">*</span></label>
+                                <textarea id="content" rows="6" class="form-control message-box message-content-input" th:field="*{content}" placeholder="Nhập vào nội dung lời chúc của bạn..."></textarea>
+                                <small class="text-muted mt-2 d-block" style="font-size: 0.78rem;"><i class="bi bi-info-circle mr-1"></i>Hệ thống sẽ tự động ghép thông tin tương ứng cho mục đánh dấu.</small>
                                 <small class="form-error" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></small>
                             </div>
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6 mb-0">
-                                    <div class="custom-control custom-checkbox mt-2">
-                                        <input type="checkbox" class="custom-control-input" id="isActive" th:field="*{isActive}">
-                                        <label class="custom-control-label" for="isActive">Kích hoạt</label>
-                                    </div>
+                            <div class="options-wrapper">
+                                <div class="custom-control custom-switch custom-control-inline mr-4">
+                                    <input type="checkbox" class="custom-control-input" id="isActive" th:field="*{isActive}">
+                                    <label class="custom-control-label fw-500" for="isActive">Kích hoạt sẵn sàng gửi</label>
                                 </div>
-                                <div class="form-group col-md-6 mb-0">
-                                    <div class="custom-control custom-checkbox mt-2">
-                                        <input type="checkbox" class="custom-control-input" id="isDefault" th:field="*{isDefault}">
-                                        <label class="custom-control-label" for="isDefault">Mặc định</label>
-                                    </div>
+                                <div class="custom-control custom-switch custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="isDefault" th:field="*{isDefault}">
+                                    <label class="custom-control-label fw-500" for="isDefault">Mặc định chọn cho loại này</label>
                                 </div>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-light" data-dismiss="modal">Hủy</button>
-                            <button id="messageSubmitBtn" type="submit" class="btn btn-primary"
-                                    th:text="${modalMode != null and modalMode.name() == 'UPDATE'} ? 'Cập Nhật' : 'Thêm Mới'">Thêm mới</button>
+                            <button type="button" class="btn btn-light" data-dismiss="modal">Hủy bỏ</button>
+                            <button id="messageSubmitBtn" type="submit" class="btn btn-primary d-flex align-items-center">
+                                <i class="bi bi-save mr-2"></i>
+                                <span th:text="${modalMode != null and modalMode.name() == 'UPDATE'} ? 'Lưu Thay Đổi' : 'Tạo Mới'">Lưu</span>
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -134,4 +178,3 @@
     </div>
 </div>
 </html>
-
