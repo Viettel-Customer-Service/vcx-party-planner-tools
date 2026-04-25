@@ -47,7 +47,7 @@ class EmployeeControllerTest {
                         null
                 )
         );
-        when(employeeService.getActiveEmployees(any())).thenReturn(new PageImpl<>(List.of(), PageRequest.of(0, 20), 0));
+        when(employeeService.getActiveEmployees(any(), any())).thenReturn(new PageImpl<>(List.of(), PageRequest.of(0, 20), 0));
         when(employeeService.getAllDepartments()).thenReturn(List.of());
 
         mockMvc.perform(post("/employees")

@@ -26,6 +26,21 @@
 
                     <!-- Action buttons -->
                     <div class="employee-actions">
+                        <!-- Search Box -->
+                        <form th:action="@{/employees}" method="get" class="employee-search-form">
+                            <div class="search-input-wrap">
+                                <i class="bi bi-search search-icon"></i>
+                                <input type="text" name="keyword" 
+                                       class="form-control search-input" 
+                                       placeholder="Tìm mã NV, tên, SĐT..."
+                                       th:value="${keyword}"
+                                       autocomplete="off">
+                                <a th:if="${keyword != null and keyword != ''}" th:href="@{/employees}" class="clear-search" title="Xóa tìm kiếm">
+                                    <i class="bi bi-x-circle-fill"></i>
+                                </a>
+                            </div>
+                        </form>
+
                         <button id="openImportEmployeeModal"
                                 type="button"
                                 class="btn btn-outline-primary"

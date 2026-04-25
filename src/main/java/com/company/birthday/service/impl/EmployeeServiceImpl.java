@@ -60,8 +60,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Page<EmployeeListResponse> getActiveEmployees(Pageable pageable) {
-		Page<Employee> employeePage = employeeRepository.findByIsActiveTrue(pageable);
+	public Page<EmployeeListResponse> getActiveEmployees(String keyword, Pageable pageable) {
+		Page<Employee> employeePage;
+		if (keyword != null && !keyword.trim().isEmpty()) {
+			employeePage = employeeRepository.findByKeyword(keyword.trim(), pageable);
+		} else {
+			employeePage = employeeRepository.findByIsActiveTrue(pageable);
+		}
 		AtomicInteger rowNumber = new AtomicInteger((int) pageable.getOffset() + 1);
 		return employeePage.map(employee -> employeeMapper.toListResponse(employee, rowNumber.getAndIncrement()));
 	}

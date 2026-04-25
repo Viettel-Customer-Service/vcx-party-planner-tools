@@ -166,6 +166,8 @@
     /* ── Toggle change event ──────────────────────────── */
     enabledInput.addEventListener('change', function () {
         syncToggleUI(this.checked);
+        // Tự động lưu cấu hình khi toggle thay đổi để đáp ứng kỳ vọng của user
+        saveButton.click();
     });
 
     /* ── Close toast button ───────────────────────────── */

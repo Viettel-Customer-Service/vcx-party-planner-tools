@@ -128,6 +128,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-left: auto;
 }
 
 .employee-actions .btn {
@@ -165,6 +166,78 @@
 .employee-actions .btn-outline-primary:hover {
     background: #fff5f7;
     transform: translateY(-1px);
+}
+
+/* ── Search Form ────────────────────────────────────────── */
+.employee-search-form {
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.search-input-wrap {
+    position: relative;
+    width: 250px;
+    transition: width 0.3s ease;
+}
+
+.search-input-wrap:focus-within {
+    width: 280px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #8490ac;
+    font-size: 0.9rem;
+    pointer-events: none;
+    transition: color 0.2s ease;
+}
+
+.search-input {
+    width: 100%;
+    height: 38px;
+    padding: 0 35px 0 36px;
+    border-radius: 19px;
+    border: 1px solid #dde1ed;
+    background: #f7f8fc;
+    font-size: 0.85rem;
+    color: #1a2540;
+    transition: all 0.2s ease;
+}
+
+.search-input::placeholder {
+    color: #a8afbf;
+}
+
+.search-input:focus {
+    background: #ffffff;
+    border-color: #c4002b;
+    box-shadow: 0 0 0 3px rgba(238, 0, 51, 0.08);
+    outline: none;
+}
+
+.search-input-wrap:focus-within .search-icon {
+    color: #c4002b;
+}
+
+.clear-search {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #a8afbf;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-decoration: none;
+    display: flex;
+    transition: color 0.15s ease;
+}
+
+.clear-search:hover {
+    color: #ee0033;
 }
 
 /* ── Data table card ──────────────────────────────────────── */
@@ -613,6 +686,18 @@
         width: 100%;
         justify-content: flex-end;
         order: 2;
+        flex-wrap: wrap;
+    }
+
+    .employee-search-form {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 8px;
+    }
+
+    .search-input-wrap,
+    .search-input-wrap:focus-within {
+        width: 100%;
     }
 
     .employee-table tbody td,

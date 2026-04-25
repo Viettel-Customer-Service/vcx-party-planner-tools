@@ -19,6 +19,13 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 	@EntityGraph(attributePaths = "department")
 	Page<Employee> findByIsActiveTrue(Pageable pageable);
 
+	@EntityGraph(attributePaths = "department")
+	@Query("SELECT e FROM Employee e WHERE e.isActive = true AND " +
+	       "(LOWER(e.employeeCode) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+	       " LOWER(e.fullName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
+	       " LOWER(e.phoneNumber) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+	Page<Employee> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
+
 	boolean existsByEmployeeCodeIgnoreCase(String employeeCode);
 
 	boolean existsByEmployeeCodeIgnoreCaseAndEmployeeIdNot(String employeeCode, Integer employeeId);
