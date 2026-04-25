@@ -11,6 +11,7 @@ import com.company.birthday.service.EmployeeService;
 import com.company.birthday.service.exception.DuplicateFieldException;
 import com.company.birthday.service.mapper.EmployeeMapper;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.slf4j.*;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -39,6 +40,8 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 
+
+@Slf4j
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
@@ -106,7 +109,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 					response.status()
 			));
 		}
-
+		log.info("phần tử: ", responses.size());
 		return responses;
 	}
 
