@@ -89,33 +89,37 @@
                     <table class="table mb-0 employee-table" aria-label="Danh sách nhân viên">
                         <thead>
                             <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">Phòng ban</th>
-                                <th scope="col">Chức danh</th>
                                 <th scope="col">Mã NV</th>
                                 <th scope="col">Họ và tên</th>
                                 <th scope="col">Ngày sinh</th>
                                 <th scope="col">Số điện thoại</th>
                                 <th scope="col">Email</th>
+                                <th scope="col">Chức danh & Phòng ban</th>
                                 <th scope="col" class="text-center">Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr th:each="employee : ${employees}">
                                 <td>
-                                    <span class="row-index" th:text="${employee.index}">1</span>
+                                    <code style="font-size:0.85rem; font-weight:600; color:#4a5578; background:#f0f2f8; padding:3px 8px; border-radius:6px; letter-spacing:0.02em;" th:text="${employee.employeeCode}">EMP001</code>
                                 </td>
                                 <td>
-                                    <span class="dept-badge" th:text="${employee.department}">CNTT</span>
+                                    <div class="emp-name" th:text="${employee.fullName}" style="font-weight:600; color:#2c3345;">Nguyễn Văn A</div>
                                 </td>
-                                <td th:text="${employee.title}">Lập trình viên</td>
                                 <td>
-                                    <code style="font-size:0.82rem; color:#4a5578; background:#f2f4f9; padding:2px 7px; border-radius:5px;" th:text="${employee.employeeCode}">EMP001</code>
+                                    <div class="dob-cell" style="display:inline-flex; align-items:center; gap:6px;">
+                                        <i class="bi bi-calendar3 text-muted" style="font-size:0.8rem;" aria-hidden="true" th:if="${employee.dateOfBirth != null}"></i>
+                                        <span th:text="${employee.dateOfBirth != null ? #temporals.format(employee.dateOfBirth, 'dd/MM/yyyy') : '—'}">15/01/1996</span>
+                                    </div>
                                 </td>
-                                <td class="emp-name" th:text="${employee.fullName}">Nguyễn Văn A</td>
-                                <td class="dob-cell" th:text="${employee.dateOfBirth != null ? #temporals.format(employee.dateOfBirth, 'dd/MM/yyyy') : '—'}">15/01/1996</td>
                                 <td th:text="${employee.phone ?: '—'}">0901234567</td>
-                                <td th:text="${employee.email ?: '—'}">abc@company.vn</td>
+                                <td th:text="${employee.email ?: '—'}" style="color:#5a6376;">abc@company.vn</td>
+                                <td>
+                                    <div class="d-flex flex-column" style="gap:4px;">
+                                        <span style="font-size:0.85rem; font-weight:500; color:#3b4356;" th:text="${employee.title}">Lập trình viên</span>
+                                        <div><span class="dept-badge" th:text="${employee.department}">CNTT</span></div>
+                                    </div>
+                                </td>
                                 <td>
                                     <div class="action-wrap">
                                         <!-- Edit -->
@@ -157,7 +161,7 @@
 
                             <!-- Empty state -->
                             <tr class="empty-state-row" th:if="${#lists.isEmpty(employees)}">
-                                <td colspan="9">
+                                <td colspan="7">
                                     <div class="empty-state">
                                         <div class="empty-state-icon">
                                             <i class="bi bi-people" aria-hidden="true"></i>
