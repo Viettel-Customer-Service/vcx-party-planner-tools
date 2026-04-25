@@ -371,7 +371,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			return null;
 		}
 
-		return EMPLOYEE_CODE_PATTERN.matcher(normalized).matches() ? normalized : null;
+		return normalized;
 	}
 
 	private String normalizeEmail(String email) {

@@ -14,6 +14,7 @@ public class EmployeeFormRequest {
     @NotBlank(message = "Vui long nhap chuc danh.")
     private String jobTitle;
 
+    @NotBlank(message = "Vui long nhap ma nhan vien.")
     private String employeeCode;
 
     @NotBlank(message = "Vui long nhap ho va ten.")
@@ -56,7 +57,7 @@ public class EmployeeFormRequest {
         }
 
         String normalized = employeeCode.trim();
-        this.employeeCode = normalized.isBlank() || !normalized.matches("\\d+") ? null : normalized;
+        this.employeeCode = normalized.isBlank() ? null : normalized;
     }
 
     public String getFullName() {
