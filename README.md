@@ -122,4 +122,8 @@ If you use Docker Compose, the script can be mounted into the PostgreSQL contain
 
 
 # Init database;
+#   MAC
 docker exec -i <container_id> psql -U postgres -d birthday_notification < Info/Database/Script.sql
+#   Windows
+docker cp Info/Database/Script.sql <container_id>:/tmp/script.sql
+docker exec -i <container_id> psql -U postgres -d birthday_notification -f /tmp/script.sql
