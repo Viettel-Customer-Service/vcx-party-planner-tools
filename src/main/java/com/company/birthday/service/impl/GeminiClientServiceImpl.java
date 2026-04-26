@@ -150,7 +150,7 @@ public class GeminiClientServiceImpl implements GeminiClientService {
         return """
        "Soi quẻ" nhân số học và viết một lời chúc sinh nhật thật "mặn" cho đồng nghiệp của mình là %s, sinh ngày %s, hiện đang "chinh chiến" ở vị trí %s.
 
-        Sao cho vừa hài hước vừa đúng chất của một %s thực thụ. Hãy lồng ghép khéo léo những tình huống "dở khóc dở cười" đặc trưng của nghề nghiệp vào lời chúc, tránh dùng văn mẫu sáo rỗng. Đừng quên gửi gắm sự trân trọng vì những đóng góp của họ cho %s trong thời gian qua.
+        Hãy lồng ghép khéo léo những tình huống "dở khóc dở cười" đặc trưng của nghề nghiệp vào lời chúc, tránh dùng văn mẫu sáo rỗng. Đừng quên gửi gắm sự trân trọng vì những đóng góp của họ cho %s trong thời gian qua.
 
         Yêu cầu:
 
@@ -158,10 +158,8 @@ public class GeminiClientServiceImpl implements GeminiClientService {
 
         Độ dài: Ngắn gọn, súc tích (dưới 700 ký tự), phù hợp để gửi tin nhắn hoặc đăng Facebook.
 
-        Tham khảo phong cách: %s.
-
         Kết quả: Chỉ trả về đúng nội dung lời chúc, không cần dẫn nhập hay giải thích thêm.
-       """.formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle, "Trung tâm Công nghệ & Kỹ thuật", safeFallbackMessage);
+       """.formatted(safeFullName, safeDateOfBirth, safeJobTitle, "Trung tâm Công nghệ & Kỹ thuật");
     }
 }
 

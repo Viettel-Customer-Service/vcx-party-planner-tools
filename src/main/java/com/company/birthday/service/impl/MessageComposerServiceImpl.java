@@ -40,7 +40,7 @@ public class MessageComposerServiceImpl implements MessageComposerService {
                 return getDefaultFallbackMessage(fullName, jobTitle);
             }
             
-            aiMessage += "\n\n" + "From TTCN&KT With Love <3";
+            aiMessage  = "Chúc mừng sinh nhật " + fullName + "!\n\n" + aiMessage + "\n\n" + "From TTCN&KT With Love <3";
             return normalize(aiMessage);
         } catch (RuntimeException ex) {
             log.warn("Gemini unavailable, fallback to DB template. messageId={}, fallbackMessageId={}", messageId, DEFAULT_FALLBACK_MESSAGE_ID, ex);
