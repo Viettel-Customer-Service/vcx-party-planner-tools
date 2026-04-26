@@ -168,7 +168,7 @@ Hãy nhập vai một "Bậc thầy Nhân số học hệ... cơm văn phòng", 
 * Lưu ý đặc biệt: Viết tự nhiên như một người bạn thân đang nhắn tin trong group chat công ty, có chút lém lỉnh nhưng vẫn đầy sự trân trọng.
 
 Chỉ trả về nội dung lời chúc, không giải thích gì thêm.
-""".formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle);
+""".formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle, safeJobTitle);
     }
 }
 
