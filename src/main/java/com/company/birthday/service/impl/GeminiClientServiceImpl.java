@@ -117,6 +117,14 @@ public class GeminiClientServiceImpl implements GeminiClientService {
                 throw new GeminiTimeoutException("Gemini timeout", ex);
             }
             throw ex;
+        } catch (org.springframework.web.client.RestClientException ex) {
+            // Catches cases where SocketTimeoutException occurs during response reading
+            // (e.g., while reading headers/body), which Spring wraps in a plain RestClientException
+            // instead of ResourceAccessException.
+            if (isTimeout(ex)) {
+                throw new GeminiTimeoutException("Gemini timeout (read)", ex);
+            }
+            throw ex;
         }
     }
 
@@ -150,6 +158,9 @@ public class GeminiClientServiceImpl implements GeminiClientService {
            2. Yếu tố hài hước: Lồng ghép các tình huống đặc trưng của vị trí %s.
            3. Giọng văn: Hài hước, thông minh, không dùng từ ngữ quá sáo rỗng và thể hiện sự trân trọng đóng góp của họ trong team.
            4. Định dạng: Viết thành một đoạn văn ngắn gọn, súc tích, phù hợp để gửi tặng đồng nghiệp. Giới hạn 700 ký tự.
+           5. Không sử dụng các từ ngữ nhạy cảm, không phù hợp với môi trường công sở.
+           6. Tránh kiểu hài gượng, ưu tiên humor tinh tế kiểu văn phòng.
+           7. Có 1 câu punchline ở cuối.
        * Mẫu phong cách tham khảo (không sao chép nguyên văn): %s
        * Chỉ trả về nội dung lời chúc hoàn chỉnh, không thêm giải thích.
        """.formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle, safeFallbackMessage);
