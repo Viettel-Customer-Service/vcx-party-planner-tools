@@ -148,19 +148,20 @@ public class GeminiClientServiceImpl implements GeminiClientService {
                 : fallbackMessage.trim();
 
         return """
-       Hãy đóng vai một chuyên gia phân tích nhân số học hài hước để viết lời chúc sinh nhật cho đồng nghiệp của tôi.
-       * Thông tin nhân vật:
-           * Tên: %s
-           * Ngày sinh: %s
-           * Vị trí làm việc: %s
-       * Yêu cầu nội dung:
-           1. Đoán tính cách: Dựa trên ngày sinh và vị trí công việc, hãy phán một cách "duyên dáng" về tính cách của họ.
-           2. Yếu tố hài hước: Lồng ghép các tình huống đặc trưng của vị trí %s.
-           3. Giọng văn: Hài hước, thông minh, không dùng từ ngữ quá sáo rỗng và thể hiện sự trân trọng đóng góp của họ trong team.
-           4. Định dạng: Viết thành một đoạn văn ngắn gọn, súc tích, phù hợp để gửi tặng đồng nghiệp. Giới hạn 700 ký tự.
-       * Mẫu phong cách tham khảo (không sao chép nguyên văn): %s
-       * Chỉ trả về nội dung lời chúc hoàn chỉnh, không thêm giải thích.
-       """.formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle, safeFallbackMessage);
+       "Soi quẻ" nhân số học và viết một lời chúc sinh nhật thật "mặn" cho đồng nghiệp của mình là %s, sinh ngày %s, hiện đang "chinh chiến" ở vị trí %s.
+
+        Nhờ bạn trổ tài phân tích các con số để "phán" một cách duyên dáng về tính cách của người này, sao cho vừa hài hước vừa đúng chất của một %s thực thụ. Hãy lồng ghép khéo léo những tình huống "dở khóc dở cười" đặc trưng của nghề nghiệp vào lời chúc, tránh dùng văn mẫu sáo rỗng. Đừng quên gửi gắm sự trân trọng vì những đóng góp của họ cho %s trong thời gian qua.
+
+        Yêu cầu:
+
+        Văn phong: Thông minh, hóm hỉnh, hành văn tự nhiên như người thật nói chuyện.
+
+        Độ dài: Ngắn gọn, súc tích (dưới 700 ký tự), phù hợp để gửi tin nhắn hoặc đăng Facebook.
+
+        Tham khảo phong cách: %s.
+
+        Kết quả: Chỉ trả về đúng nội dung lời chúc, không cần dẫn nhập hay giải thích thêm.
+       """.formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle, "Trung tâm Công nghệ & Kỹ thuật", safeFallbackMessage);
     }
 }
 
