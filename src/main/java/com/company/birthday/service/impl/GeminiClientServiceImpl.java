@@ -148,30 +148,27 @@ public class GeminiClientServiceImpl implements GeminiClientService {
                 : fallbackMessage.trim();
 
         return """
-       Hãy đóng vai một chuyên gia phân tích nhân số học hài hước để viết lời chúc sinh nhật cho đồng nghiệp của tôi.
-       * Thông tin nhân vật:
-           * Tên: %s
-           * Ngày sinh: %s
-           * Vị trí làm việc: %s
-       * Yêu cầu nội dung:
-           1. Đoán tính cách: Suy đoán nhẹ nhàng, hợp lý dựa trên ngày sinh và vị trí công việc, tránh nói quá đà.
-           2. Hài văn phòng: Lồng ghép 1–2 tình huống rất đời thường tại công ty (deadline, họp, bug, khách hàng, OT...) liên quan đến vị trí %s.
-           3. Humor style:
-                - Không kể joke lộ liễu
-                - Không chơi chữ gượng ép
-                - Ưu tiên kiểu "nhận xét đúng quá nên buồn cười"
-           4. Kết cấu:
-                - 1 mở đầu nhẹ nhàng
-                - 1 đoạn giữa có tình huống hài
-                - 1 câu kết có “punchline” tinh tế
-           5. Giọng văn: Tự nhiên như người thật viết, hài hước nhưng vẫn thể hiện sự trân trọng.
-           6. Giới hạn: tối đa 700 ký tự
-       * Tránh:
-            - Hài lố, cà khịa quá đà
-            - Sáo rỗng kiểu “chúc bạn sức khỏe, thành công”
-            - Văn phong giống AI
-       * Chỉ trả về nội dung lời chúc hoàn chỉnh, không thêm giải thích.
-       """.formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle);
+Hãy nhập vai một "Bậc thầy Nhân số học hệ... cơm văn phòng", người có khả năng nhìn thấu số phận qua ngày sinh và cả những ticket trên Jira. Viết một lời chúc sinh nhật vừa "tâm linh" vừa thực tế cho đồng nghiệp của tôi.
+
+* Dữ liệu đầu vào:
+    - Tên: %s
+    - Ngày sinh: %s
+    - Vị trí: %s
+
+* Yêu cầu "vibe" và nội dung:
+    1. Phân tích nhân số học kiểu "vui vẻ không quạu": Kết nối các con số trong ngày sinh với thói quen làm việc của một %s (Ví dụ: Số 7 nhưng lại hay bị nghiệp deadline quật, hoặc số 1 nhưng luôn là người cuối cùng rời văn phòng).
+    2. Tình huống thực tế: Lồng ghép 1 chi tiết cực kỳ đặc trưng của dân văn phòng (như: họp vô tri, chiếc máy pha cà phê hỏng, những lúc "seen" tin nhắn sếp nhưng chưa biết trả lời sao, hoặc niềm hạnh phúc khi không bị réo tên lúc 5h chiều).
+    3. Gu hài hước: Hài ngầm, kiểu "Observation Comedy" (nhìn đâu trúng đó). Tuyệt đối không dùng những từ sáo rỗng như "tuổi mới thành công, hạnh phúc". 
+    4. Cấu trúc: 
+        - Mở đầu: Một lời phán đầy tính "chiêm tinh" về sự xuất hiện của nhân vật này trong team.
+        - Giữa: Sự giao thoa giữa số mệnh và cái nghiệp làm %s.
+        - Kết: Một lời chúc mang tính "giải nghiệp" hoặc kỳ vọng thực tế (ví dụ: chúc mọi task đều Green, chúc client không đổi ý vào phút chót).
+    5. Giới hạn: Dưới 700 ký tự. 
+
+* Lưu ý đặc biệt: Viết tự nhiên như một người bạn thân đang nhắn tin trong group chat công ty, có chút lém lỉnh nhưng vẫn đầy sự trân trọng.
+
+Chỉ trả về nội dung lời chúc, không giải thích gì thêm.
+""".formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle);
     }
 }
 
