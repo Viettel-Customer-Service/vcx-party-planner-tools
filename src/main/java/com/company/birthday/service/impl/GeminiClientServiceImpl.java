@@ -148,7 +148,7 @@ public class GeminiClientServiceImpl implements GeminiClientService {
                 : fallbackMessage.trim();
 
         return """
-       Hãy đóng vai một đồng nghiệp cực kỳ tinh tế và hài hước trong môi trường văn phòng để viết lời chúc sinh nhật.
+       Hãy đóng vai một chuyên gia phân tích nhân số học hài hước để viết lời chúc sinh nhật cho đồng nghiệp của tôi.
        * Thông tin nhân vật:
            * Tên: %s
            * Ngày sinh: %s
