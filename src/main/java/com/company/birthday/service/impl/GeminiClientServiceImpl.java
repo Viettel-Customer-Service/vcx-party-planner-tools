@@ -150,7 +150,7 @@ public class GeminiClientServiceImpl implements GeminiClientService {
         return """
        "Soi quẻ" nhân số học và viết một lời chúc sinh nhật thật "mặn" cho đồng nghiệp của mình là %s, sinh ngày %s, hiện đang "chinh chiến" ở vị trí %s.
 
-        Nhờ bạn trổ tài phân tích các con số để "phán" một cách duyên dáng về tính cách của người này, sao cho vừa hài hước vừa đúng chất của một %s thực thụ. Hãy lồng ghép khéo léo những tình huống "dở khóc dở cười" đặc trưng của nghề nghiệp vào lời chúc, tránh dùng văn mẫu sáo rỗng. Đừng quên gửi gắm sự trân trọng vì những đóng góp của họ cho %s trong thời gian qua.
+        Sao cho vừa hài hước vừa đúng chất của một %s thực thụ. Hãy lồng ghép khéo léo những tình huống "dở khóc dở cười" đặc trưng của nghề nghiệp vào lời chúc, tránh dùng văn mẫu sáo rỗng. Đừng quên gửi gắm sự trân trọng vì những đóng góp của họ cho %s trong thời gian qua.
 
         Yêu cầu:
 
