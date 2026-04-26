@@ -114,5 +114,5 @@ birthday:
       enabled: ${WHATSAPP_ENABLED:true}
       group-id: ${WHATSAPP_GROUP_ID:120363407565980215@g.us}
     email:
-      enabled: ${EMAIL_ENABLED:true}
+      enabled: ${EMAIL_ENABLED:false}
       subject: ${EMAIL_SUBJECT:Chuc mung sinh nhat}
