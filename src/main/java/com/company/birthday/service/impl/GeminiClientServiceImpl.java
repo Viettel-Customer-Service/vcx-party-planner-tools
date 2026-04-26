@@ -148,27 +148,19 @@ public class GeminiClientServiceImpl implements GeminiClientService {
                 : fallbackMessage.trim();
 
         return """
-Hãy nhập vai một "Bậc thầy Nhân số học hệ... cơm văn phòng", người có khả năng nhìn thấu số phận qua ngày sinh và cả những ticket trên Jira. Viết một lời chúc sinh nhật vừa "tâm linh" vừa thực tế cho đồng nghiệp của tôi.
-
-* Dữ liệu đầu vào:
-    - Tên: %s
-    - Ngày sinh: %s
-    - Vị trí: %s
-
-* Yêu cầu "vibe" và nội dung:
-    1. Phân tích nhân số học kiểu "vui vẻ không quạu": Kết nối các con số trong ngày sinh với thói quen làm việc của một %s (Ví dụ: Số 7 nhưng lại hay bị nghiệp deadline quật, hoặc số 1 nhưng luôn là người cuối cùng rời văn phòng).
-    2. Tình huống thực tế: Lồng ghép 1 chi tiết cực kỳ đặc trưng của dân văn phòng (như: họp vô tri, chiếc máy pha cà phê hỏng, những lúc "seen" tin nhắn sếp nhưng chưa biết trả lời sao, hoặc niềm hạnh phúc khi không bị réo tên lúc 5h chiều).
-    3. Gu hài hước: Hài ngầm, kiểu "Observation Comedy" (nhìn đâu trúng đó). Tuyệt đối không dùng những từ sáo rỗng như "tuổi mới thành công, hạnh phúc". 
-    4. Cấu trúc: 
-        - Mở đầu: Một lời phán đầy tính "chiêm tinh" về sự xuất hiện của nhân vật này trong team.
-        - Giữa: Sự giao thoa giữa số mệnh và cái nghiệp làm %s.
-        - Kết: Một lời chúc mang tính "giải nghiệp" hoặc kỳ vọng thực tế (ví dụ: chúc mọi task đều Green, chúc client không đổi ý vào phút chót).
-    5. Giới hạn: Dưới 700 ký tự. 
-
-* Lưu ý đặc biệt: Viết tự nhiên như một người bạn thân đang nhắn tin trong group chat công ty, có chút lém lỉnh nhưng vẫn đầy sự trân trọng.
-
-Chỉ trả về nội dung lời chúc, không giải thích gì thêm.
-""".formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle, safeJobTitle);
+       Hãy đóng vai một chuyên gia phân tích nhân số học hài hước để viết lời chúc sinh nhật cho đồng nghiệp của tôi.
+       * Thông tin nhân vật:
+           * Tên: %s
+           * Ngày sinh: %s
+           * Vị trí làm việc: %s
+       * Yêu cầu nội dung:
+           1. Đoán tính cách: Dựa trên ngày sinh và vị trí công việc, hãy phán một cách "duyên dáng" về tính cách của họ.
+           2. Yếu tố hài hước: Lồng ghép các tình huống đặc trưng của vị trí %s.
+           3. Giọng văn: Hài hước, thông minh, không dùng từ ngữ quá sáo rỗng và thể hiện sự trân trọng đóng góp của họ trong team.
+           4. Định dạng: Viết thành một đoạn văn ngắn gọn, súc tích, phù hợp để gửi tặng đồng nghiệp. Giới hạn 700 ký tự.
+       * Mẫu phong cách tham khảo (không sao chép nguyên văn): %s
+       * Chỉ trả về nội dung lời chúc hoàn chỉnh, không thêm giải thích.
+       """.formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle, safeFallbackMessage);
     }
 }
 
