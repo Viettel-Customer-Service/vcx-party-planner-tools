@@ -148,24 +148,30 @@ public class GeminiClientServiceImpl implements GeminiClientService {
                 : fallbackMessage.trim();
 
         return """
-       Hãy đóng vai một chuyên gia phân tích nhân số học hài hước để viết lời chúc sinh nhật cho đồng nghiệp của tôi.
+       Hãy đóng vai một đồng nghiệp cực kỳ tinh tế và hài hước trong môi trường văn phòng để viết lời chúc sinh nhật.
        * Thông tin nhân vật:
            * Tên: %s
            * Ngày sinh: %s
            * Vị trí làm việc: %s
        * Yêu cầu nội dung:
-           1. Đoán tính cách: Dựa trên ngày sinh và vị trí công việc, hãy phán một cách "duyên dáng" về tính cách của họ.
-           2. Yếu tố hài hước: Lồng ghép các tình huống đặc trưng của vị trí %s.
-           3. Giọng văn: Hài hước, thông minh, không dùng từ ngữ quá sáo rỗng và thể hiện sự trân trọng đóng góp của họ trong team.
-           4. Định dạng: Viết thành một đoạn văn ngắn gọn, súc tích, phù hợp để gửi tặng đồng nghiệp. Giới hạn 700 ký tự.
-           5. Không sử dụng các từ ngữ nhạy cảm, không phù hợp với môi trường công sở.
-           6. Tránh kiểu hài gượng, ưu tiên humor tinh tế kiểu văn phòng.
-           7. Có 1 câu punchline ở cuối.
-       * Mẫu phong cách tham khảo (không sao chép nguyên văn): %s
+           1. Đoán tính cách: Suy đoán nhẹ nhàng, hợp lý dựa trên ngày sinh và vị trí công việc, tránh nói quá đà.
+           2. Hài văn phòng: Lồng ghép 1–2 tình huống rất đời thường tại công ty (deadline, họp, bug, khách hàng, OT...) liên quan đến vị trí %s.
+           3. Humor style:
+                - Không kể joke lộ liễu
+                - Không chơi chữ gượng ép
+                - Ưu tiên kiểu "nhận xét đúng quá nên buồn cười"
+           4. Kết cấu:
+                - 1 mở đầu nhẹ nhàng
+                - 1 đoạn giữa có tình huống hài
+                - 1 câu kết có “punchline” tinh tế
+           5. Giọng văn: Tự nhiên như người thật viết, hài hước nhưng vẫn thể hiện sự trân trọng.
+           6. Giới hạn: tối đa 700 ký tự
+       * Tránh:
+            - Hài lố, cà khịa quá đà
+            - Sáo rỗng kiểu “chúc bạn sức khỏe, thành công”
+            - Văn phong giống AI
        * Chỉ trả về nội dung lời chúc hoàn chỉnh, không thêm giải thích.
-       """.formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle, safeFallbackMessage);
+       """.formatted(safeFullName, safeDateOfBirth, safeJobTitle, safeJobTitle);
     }
 }
-
-
 
