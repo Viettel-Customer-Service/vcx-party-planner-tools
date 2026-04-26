@@ -87,7 +87,7 @@ green-api:
 
 gemini:
   api:
-    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent
+    url: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent
 #    key: ${GEMINI_API_KEY:AIzaSyAakH1WNlGQ5qPoDCPcvt9QXVSXAXguwsQ}
     key: ${GEMINI_API_KEY:AIzaSyAt5sgyqXZxChK8ARpdHebUgNWtMZJ-AJg}
     connect-timeout-ms: ${GEMINI_CONNECT_TIMEOUT_MS:5000}
