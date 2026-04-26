@@ -149,15 +149,12 @@ public class GeminiClientServiceImpl implements GeminiClientService {
 
         return """
        "Soi quẻ" nhân số học và viết một lời chúc sinh nhật thật "mặn" cho đồng nghiệp của mình là %s, sinh ngày %s, hiện đang "chinh chiến" ở vị trí %s.
-
+        Đặc biệt lưu ý, các con số đưa ra phải chuẩn xác, nhất là tuổi (hãy lấy năm hiện tại 2026 trừ đi năm sinh rồi cộng thêm 1 để ra tuổi 'mụ' cho đúng phong tục).
         Hãy lồng ghép khéo léo những tình huống "dở khóc dở cười" đặc trưng của nghề nghiệp vào lời chúc, tránh dùng văn mẫu sáo rỗng. Đừng quên gửi gắm sự trân trọng vì những đóng góp của họ cho %s trong thời gian qua.
-
         Yêu cầu:
-
-        Văn phong: Thông minh, hóm hỉnh, hành văn tự nhiên như người thật nói chuyện.
-
-        Độ dài: Ngắn gọn, súc tích (dưới 700 ký tự), phù hợp để gửi tin nhắn hoặc đăng Facebook.
-
+            - Văn phong: Thông minh, hóm hỉnh, hành văn tự nhiên như người thật nói chuyện.
+            - Dữ liệu: Các con số cần chính các ví như tuổi (cần phải tính chính xác lấy năm hiện tại trừ đi năm sinh + 1)
+            - Độ dài: Ngắn gọn, súc tích (dưới 700 ký tự), phù hợp để gửi tin nhắn hoặc đăng Facebook.
         Kết quả: Chỉ trả về đúng nội dung lời chúc, không cần dẫn nhập hay giải thích thêm.
        """.formatted(safeFullName, safeDateOfBirth, safeJobTitle, "Trung tâm Công nghệ & Kỹ thuật");
     }
